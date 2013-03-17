@@ -1,9 +1,7 @@
 package fr.esiea.ancestry;
 
-/**
- * Hello world!
- *
- */
+// Quentin Chouleur
+
 public class App 
 {
     public static void main( String[] args )
