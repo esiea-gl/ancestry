@@ -12,11 +12,18 @@ import org.junit.Test;
 public class PersonTest {
 
 	private Person person;
-	
+	private Date currentDateMinusTenDays;
+	private Date currentDateMinusFiveDays;
+
 	@Before
 	public void setUp() {
 		person = new Woman();
-			
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -10);
+		currentDateMinusTenDays = calendar.getTime();
+		calendar.add(Calendar.DATE, 5);
+		currentDateMinusFiveDays = calendar.getTime();
 	}
 	
 	@Test
@@ -102,5 +109,42 @@ public class PersonTest {
 		
 	}
 	
+	@Test
+	public void testWomanBuild() {
+		
+		String firstName = "Elodie";
+		String lastName = "Dupont";
+		
+		Person woman = new Person.Builder(firstName, lastName)
+						.birthDate(currentDateMinusTenDays)
+						.deathDate(currentDateMinusFiveDays)
+						.Build("F");
+		
+		assertNotNull(woman);
+		assertTrue(woman instanceof Woman);
+		assertTrue(woman.birthDate().equals(currentDateMinusTenDays));
+		assertTrue(woman.deathDate().equals(currentDateMinusFiveDays));
+		assertTrue(woman.firstName() == firstName);
+		assertTrue(woman.lastName() == lastName); 
+	}
+	
+	@Test
+	public void testManBuild() {
+		
+		String firstName = "Elodi";
+		String lastName = "Dupond";
+		
+		Person man = new Person.Builder(firstName, lastName)
+						.birthDate(currentDateMinusTenDays)
+						.deathDate(currentDateMinusFiveDays)
+						.Build("M");
+		
+		assertNotNull(man);
+		assertTrue(man instanceof Man);
+		assertTrue(man.birthDate().equals(currentDateMinusTenDays));
+		assertTrue(man.deathDate().equals(currentDateMinusFiveDays));
+		assertTrue(man.firstName() == firstName);
+		assertTrue(man.lastName() == lastName);		
+	}
 
 }

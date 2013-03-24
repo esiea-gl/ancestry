@@ -21,6 +21,16 @@ public abstract class Person {
 		childs = new ArrayList<Person>();
 	}
 	
+	public Person(Builder builder) {
+		childs = new ArrayList<Person>();
+		
+		this.firstName = builder.firstName;
+		this.lastName = builder.lastName;
+		setBirthDate(builder.birthDate);
+		setDeathDate(builder.deathDate);
+		
+	}
+	
 	public void setMother(Woman mother) {
 		if(mother != null) mother.removeChild(this);
 		this.mother = mother;
@@ -75,10 +85,12 @@ public abstract class Person {
 	}
 	
 	public Date birthDate() {
+		if(birthDate == null) return null;
 		return (Date) birthDate.clone();
 	}
 	
 	public Date deathDate() {
+		if(deathDate == null) return null;
 		return (Date) deathDate.clone();
 	}
 
@@ -122,4 +134,35 @@ public abstract class Person {
 		return (deathDate != null) ? deathDate.before(new Date()): false; 
 	}
 
+	public static class Builder {
+		
+		private final String firstName;
+		private final String lastName;
+		private Date birthDate;
+		private Date deathDate;
+		
+		public Builder(String firstName, String lastName) {
+			this.firstName = firstName;
+			this.lastName = lastName;
+		}
+		
+		public Builder birthDate(Date date){
+			this.birthDate = date;
+			return this;
+		}
+		
+		public Builder deathDate(Date date){
+			this.deathDate = date;
+			return this;
+		}
+		
+		public Person Build(String gender) {
+			
+			if(gender.equals("M")) return new Man(this);
+			if(gender.equals("F")) return new Woman(this);
+			throw new IllegalArgumentException("gender");
+		}
+		
+		
+	}
 }

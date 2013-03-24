@@ -2,6 +2,14 @@ package fr.esiea.ancestry.domain;
 
 public class Man extends Person {
 
+	public Man() {
+		
+	}
+	
+	public Man(Builder builder) {
+		super(builder);
+	}
+	
 	
 	@Override
 	protected void linkChild(Person child) {
