@@ -3,6 +3,7 @@ package fr.esiea.ancestry.domain;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Before;
@@ -57,7 +58,7 @@ public class PersonTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testIllegalBirthDate() throws InterruptedException{
+	public void testIllegalBirthDateAfterDeathDate() throws InterruptedException{
 		
 		Date deathDate = new Date(); 
 		Thread.sleep(10);
@@ -65,12 +66,10 @@ public class PersonTest {
 		
 		person.setDeathDate(deathDate);
 		person.setBirthDate(birthDate);
-	
-		
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testIllegalDeathDate() throws InterruptedException{
+	public void testIllegalDeathDateBeforeBirthDate() throws InterruptedException{
 		
 		Date deathDate = new Date();
 		Thread.sleep(10);
@@ -82,4 +81,26 @@ public class PersonTest {
 		
 	}
 	
+	@Test(expected = IllegalArgumentException.class) 
+	public void testIllegalDeathDateInFuture() {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, 1);
+		Date deathDate = calendar.getTime();
+		
+		person.setDeathDate(deathDate);
+	}
+	
+	@Test(expected = IllegalArgumentException.class) 
+	public void testIllegalBirthDateInFuture() {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, 1);
+		Date birthDate = calendar.getTime();
+		
+		person.setBirthDate(birthDate);
+		
+	}
+	
+
 }

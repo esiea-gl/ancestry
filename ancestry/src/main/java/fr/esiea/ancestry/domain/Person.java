@@ -48,7 +48,7 @@ public abstract class Person {
 	}
 	
 	public void addChild(Person child) {
-		
+
 		if(this.childs().contains(child)) return;
 		if(verifyChild(child)) {
 			this.childs.add(child);
@@ -94,22 +94,32 @@ public abstract class Person {
 	
 	private boolean isDeathDateValid(Date deathDate) {
 		if(deathDate == null) return true;
+		if(isDateInTheFuture(deathDate)) return false;
 		if(birthDate != null && deathDate.before(birthDate)) return false;
 		return true;
 	}
 	
 	private boolean isBirthDateValid(Date birthDate) {
 		if(birthDate == null) return true;
+		if(isDateInTheFuture(birthDate)) return false;
 		if(deathDate != null && birthDate.after(deathDate)) return false;
 		return true;
 	}
 
+	private boolean isDateInTheFuture(Date date) {
+		return date.after(new Date());
+	}
+	
 	public String firstName() {
 		return firstName;
 	}
 	
 	public String lastName() {
 		return lastName;
+	}
+	
+	public boolean isDead() {
+		return (deathDate != null) ? deathDate.before(new Date()): false; 
 	}
 
 }
