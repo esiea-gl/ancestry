@@ -1,7 +1,6 @@
 package fr.esiea.ancestry.domain;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.Date;
