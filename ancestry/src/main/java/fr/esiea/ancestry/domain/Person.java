@@ -7,6 +7,7 @@ import java.util.List;
 
 public abstract class Person {
 	
+	//attributs
 	private Date birthDate; 
 	private Date deathDate;
 	
