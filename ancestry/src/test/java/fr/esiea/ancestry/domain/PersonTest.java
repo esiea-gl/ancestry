@@ -1,28 +1,24 @@
 package fr.esiea.ancestry.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Calendar;
-import java.util.Date;
-
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PersonTest {
 
 	private Person person;
-	private Date currentDateMinusTenDays;
-	private Date currentDateMinusFiveDays;
+	private DateTime currentDateMinusTenDays;
+	private DateTime currentDateMinusFiveDays;
 
 	@Before
 	public void setUp() {
 		person = new Woman();
+		currentDateMinusTenDays = new DateTime().minusDays(10);
+		currentDateMinusFiveDays = new DateTime().minusDays(5);
 		
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, -10);
-		currentDateMinusTenDays = calendar.getTime();
-		calendar.add(Calendar.DATE, 5);
-		currentDateMinusFiveDays = calendar.getTime();
 	}
 	
 	@Test
@@ -66,9 +62,8 @@ public class PersonTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalBirthDateAfterDeathDate() throws InterruptedException{
 		
-		Date deathDate = new Date(); 
-		Thread.sleep(10);
-		Date birthDate = new Date();
+		DateTime deathDate = new DateTime().minusDays(10); 
+		DateTime birthDate = deathDate.minusHours(-1);
 		
 		person.setDeathDate(deathDate);
 		person.setBirthDate(birthDate);
@@ -77,33 +72,26 @@ public class PersonTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalDeathDateBeforeBirthDate() throws InterruptedException{
 		
-		Date deathDate = new Date();
-		Thread.sleep(10);
-		Date birthDate = new Date();
+		DateTime birthDate = new DateTime().minusDays(10);
+		DateTime deathDate = birthDate.minusHours(1);
 		
-		person.setDeathDate(deathDate);
 		person.setBirthDate(birthDate);
-		
+		person.setDeathDate(deathDate);
 		
 	}
 	
 	@Test(expected = IllegalArgumentException.class) 
 	public void testIllegalDeathDateInFuture() {
 		
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, 1);
-		Date deathDate = calendar.getTime();
 		
+		DateTime deathDate = new DateTime().minusDays(-1);
 		person.setDeathDate(deathDate);
 	}
 	
 	@Test(expected = IllegalArgumentException.class) 
 	public void testIllegalBirthDateInFuture() {
 		
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, 1);
-		Date birthDate = calendar.getTime();
-		
+		DateTime birthDate = new DateTime().minusDays(-1);
 		person.setBirthDate(birthDate);
 		
 	}
@@ -121,8 +109,8 @@ public class PersonTest {
 		
 		assertNotNull(woman);
 		assertTrue(woman instanceof Woman);
-		assertTrue(woman.birthDate().equals(currentDateMinusTenDays));
-		assertTrue(woman.deathDate().equals(currentDateMinusFiveDays));
+		assertTrue(woman.birthDate().isEqual(currentDateMinusTenDays));
+		assertTrue(woman.deathDate().isEqual(currentDateMinusFiveDays));
 		assertTrue(woman.firstName() == firstName);
 		assertTrue(woman.lastName() == lastName); 
 	}
@@ -147,3 +135,4 @@ public class PersonTest {
 	}
 
 }
+
