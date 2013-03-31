@@ -5,10 +5,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 public abstract class Person {
 	
-	private Date birthDate; 
-	private Date deathDate;
+	private DateTime birthDate; 
+	private DateTime deathDate;
 	
 	private String firstName;
 	private String lastName;
@@ -28,7 +30,6 @@ public abstract class Person {
 		this.lastName = builder.lastName;
 		setBirthDate(builder.birthDate);
 		setDeathDate(builder.deathDate);
-		
 	}
 	
 	public void setMother(Woman mother) {
@@ -84,42 +85,47 @@ public abstract class Person {
 		return Collections.unmodifiableList(childs);
 	}
 	
-	public Date birthDate() {
+	public DateTime birthDate() {
 		if(birthDate == null) return null;
-		return (Date) birthDate.clone();
+		return new DateTime(birthDate);
 	}
 	
-	public Date deathDate() {
+	public DateTime deathDate() {
 		if(deathDate == null) return null;
-		return (Date) deathDate.clone();
+		return new DateTime(deathDate);
 	}
 
-	public void setBirthDate(Date birthDate) throws IllegalArgumentException {
+	public void setBirthDate(DateTime birthDate) throws IllegalArgumentException {
 		if(!isBirthDateValid(birthDate)) throw new IllegalArgumentException("birthDate");
-		this.birthDate = birthDate;
+		this.birthDate = new DateTime(birthDate);
 	}
 	
-	public void setDeathDate(Date deathDate) throws IllegalArgumentException {
+	public void setDeathDate(DateTime deathDate) throws IllegalArgumentException {
 		if(!isDeathDateValid(deathDate)) throw new IllegalArgumentException("deathDate");
-		this.deathDate = deathDate;
+		this.deathDate = new DateTime(deathDate);
 	}
 	
-	private boolean isDeathDateValid(Date deathDate) {
+	private boolean isDeathDateValid(DateTime deathDate) {
 		if(deathDate == null) return true;
 		if(isDateInTheFuture(deathDate)) return false;
-		if(birthDate != null && deathDate.before(birthDate)) return false;
+		if(birthDate != null && deathDate.isBefore(birthDate)) return false;
 		return true;
 	}
 	
-	private boolean isBirthDateValid(Date birthDate) {
+	private boolean isBirthDateValid(DateTime birthDate) {
 		if(birthDate == null) return true;
 		if(isDateInTheFuture(birthDate)) return false;
-		if(deathDate != null && birthDate.after(deathDate)) return false;
+		if(deathDate != null && birthDate.isAfter(deathDate)) return false;
 		return true;
 	}
 
-	private boolean isDateInTheFuture(Date date) {
-		return date.after(new Date());
+	private boolean isDateInTheFuture(DateTime date) {
+		return date.isAfter(new DateTime());
+	}
+	
+	
+	public String fullName() {
+		return firstName + lastName;
 	}
 	
 	public String firstName() {
@@ -131,27 +137,27 @@ public abstract class Person {
 	}
 	
 	public boolean isDead() {
-		return (deathDate != null) ? deathDate.before(new Date()): false; 
+		return (deathDate != null) ? deathDate.toDate().before(new Date()): false; 
 	}
 
 	public static class Builder {
 		
 		private final String firstName;
 		private final String lastName;
-		private Date birthDate;
-		private Date deathDate;
+		private DateTime birthDate;
+		private DateTime deathDate;
 		
 		public Builder(String firstName, String lastName) {
 			this.firstName = firstName;
 			this.lastName = lastName;
 		}
 		
-		public Builder birthDate(Date date){
+		public Builder birthDate(DateTime date){
 			this.birthDate = date;
 			return this;
 		}
 		
-		public Builder deathDate(Date date){
+		public Builder deathDate(DateTime date){
 			this.deathDate = date;
 			return this;
 		}
