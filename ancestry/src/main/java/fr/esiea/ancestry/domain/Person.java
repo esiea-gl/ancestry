@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Years;
 
 public abstract class Person {
 	
@@ -17,6 +18,7 @@ public abstract class Person {
 	
 	private Man father;
 	private Woman mother;
+	private Person spouse;  
 	private List<Person> childs;
 	
 	public Person() {
@@ -45,6 +47,14 @@ public abstract class Person {
 		return mother;
 	}
 	
+	public void setSpouse(Person spouse) {
+		this.spouse = spouse;
+	}
+
+	public Person Spouse() {
+		return this.spouse;
+	}
+	
 	public void setFather(Man father) {
 		if(father != null) father.removeChild(this);
 		this.father = father;
@@ -67,10 +77,19 @@ public abstract class Person {
 		}
 	}
 	
-	protected abstract boolean verifyChild(Person child);
+	private boolean verifyChild(Person child) {
+		if(!canHaveChild()) return false;
+		return true;
+	}
+	
 	protected abstract void linkChild(Person child);
 	protected abstract void unlinkChild(Person child);
+	protected abstract int minimalAgeForChildren();
 	
+	private boolean canHaveChild() {
+		if(birthDate == null) return true;
+		return age() > minimalAgeForChildren();
+	}
 	
 	public int childCount() {
 		return childs.size();
@@ -123,7 +142,6 @@ public abstract class Person {
 		return date.isAfter(new DateTime());
 	}
 	
-	
 	public String fullName() {
 		return firstName + lastName;
 	}
@@ -134,6 +152,11 @@ public abstract class Person {
 	
 	public String lastName() {
 		return lastName;
+	}
+	
+	protected int age() {
+		if(this.birthDate == null) return 0;
+		return Years.yearsBetween(this.birthDate, new DateTime()).getYears();
 	}
 	
 	public boolean isDead() {

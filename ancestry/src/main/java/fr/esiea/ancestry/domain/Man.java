@@ -2,6 +2,8 @@ package fr.esiea.ancestry.domain;
 
 public class Man extends Person {
 
+	private static final int AGE_TO_HAVE_CHILD = 14;
+	
 	public Man() {
 		
 	}
@@ -20,10 +22,12 @@ public class Man extends Person {
 	protected void unlinkChild(Person child) {
 		if(child.father() == this) child.setFather(null);
 	}
-	
+
 	@Override
-	protected boolean verifyChild(Person child) {
-		return true;
+	protected int minimalAgeForChildren() {
+		return AGE_TO_HAVE_CHILD;
 	}
+	
+	
 	
 }
