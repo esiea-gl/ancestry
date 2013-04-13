@@ -24,14 +24,20 @@ public class CSVPersonDao implements PersonDao {
 	}
 	
 	public Person get(int index) {
-
 		return persons.get(index);
 	}
 
 	public List<Person> find(String name) {
 		
+		String regex = "(.*?)" + name + "(.*?)";
+		List<Person> results = new ArrayList<Person>();
 		
-		return null;
+		for(Person p : persons) {
+			if(p.fullName().matches(regex))
+				results.add(p);
+		}
+		
+		return results;
 	}
 		
 	public void save(List<Person> persons) {
