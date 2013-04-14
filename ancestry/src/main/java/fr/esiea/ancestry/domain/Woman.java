@@ -19,6 +19,11 @@ public class Woman extends Person {
 		return AGE_TO_HAVE_CHILD;
 	}
 	
+	@Override
+	public String gender() {
+		return "F";
+	}
+	
 	private static final class NullWoman extends Woman {
 		
 		private NullWoman() {

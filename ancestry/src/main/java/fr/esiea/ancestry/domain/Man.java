@@ -13,10 +13,14 @@ public class Man extends Person {
 		super(builder);
 	}
 	
-	
 	@Override
 	protected int minimalAgeForChildren() {
 		return AGE_TO_HAVE_CHILD;
+	}
+	
+	@Override
+	public String gender() {
+		return "M";
 	}
 	
 	private static class NullPerson extends Man {
@@ -31,4 +35,6 @@ public class Man extends Person {
 			}
 		
 	}
+
+	
 }

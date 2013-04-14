@@ -15,11 +15,19 @@ public abstract class Person {
 	private Couple parents;
 	private Couple itsCouple;  
 	
+	private int id;
+	
+
+	private int fatherId;
+	private int motherId;
+	
+	
 	public Person() { }
 	
 	public Person(Builder builder) {
 		
 		itsCouple = new Couple();
+		parents = new Couple();
 		
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
@@ -34,6 +42,33 @@ public abstract class Person {
 	
 	protected abstract int minimalAgeForChildren();
 	
+	public abstract String gender();
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getFatherId() {
+		return fatherId;
+	}
+
+	public void setFatherId(int fatherId) {
+		this.fatherId = fatherId;
+	}
+
+	public int getMotherId() {
+		return motherId;
+	}
+
+	public void setMotherId(int motherId) {
+		this.motherId = motherId;
+	}
+	
+	
 	public Couple getCouple() {
 		return itsCouple;
 	}
@@ -41,6 +76,14 @@ public abstract class Person {
 	public void setParents(Couple parents) {
 		parents.addChild(this);
 		this.parents = parents;
+	}
+	
+	public Man getFather() {
+		return parents.getFather();
+	}
+	
+	public Woman getMother() {
+		return parents.getMother();
 	}
 	
 	public Couple getParents() {
