@@ -9,54 +9,37 @@ import org.junit.Test;
 
 public class PersonTest {
 
-	private Person person;
+	private Person woman;
+	private Person man;
 	private DateTime currentDateMinusTenDays;
 	private DateTime currentDateMinusFiveDays;
 
 	@Before
 	public void setUp() {
-		person = new Woman();
+		woman = new Woman();
+		man = new Man();
 		currentDateMinusTenDays = new DateTime().minusDays(10);
 		currentDateMinusFiveDays = new DateTime().minusDays(5);
 		
 	}
 	
-	@Test
-	public void testAddChild() {
 		
-		Person firstChild = new Woman();
-		Person secondChild = new Man();
-		Person thirdChild = new Woman();
-		
-		person.addChild(firstChild);
-		person.addChild(secondChild);
-		person.addChild(thirdChild);
-	
-		assertTrue(person.childCount() == 3);
-		assertNotNull(person.childs());
-	}
-	
-	@Test
-	public void testRemoveChild() {
-		Person child = new Woman();
-		person.addChild(child);
-		assertTrue(person.childCount() == 1);
-		person.removeChild(child);
-		assertTrue(person.childCount() == 0);
-	}
-	
 	@Test
 	public void testSetMother() {
-		person.setMother(new Woman());
-		assertNotNull(person.mother());
-		assertTrue(person.mother().childCount() > 0);
+		Couple parents = new Couple();
+		parents.setMother(new Woman());
+		
+		man.setParents(parents);
+		assertTrue(parents.childCount() == 1);
 	}
 	
 	@Test
 	public void testSetFather(){
-		person.setFather(new Man());
-		assertNotNull(person.father());
-		assertTrue(person.father().childCount() > 0);
+		Couple parents = new Couple();
+		parents.setFather(new Man());
+		
+		man.setParents(parents);
+		assertTrue(parents.childCount() == 1);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -65,8 +48,8 @@ public class PersonTest {
 		DateTime deathDate = new DateTime().minusDays(10); 
 		DateTime birthDate = deathDate.minusHours(-1);
 		
-		person.setDeathDate(deathDate);
-		person.setBirthDate(birthDate);
+		woman.setDeathDate(deathDate);
+		woman.setBirthDate(birthDate);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -75,8 +58,8 @@ public class PersonTest {
 		DateTime birthDate = new DateTime().minusDays(10);
 		DateTime deathDate = birthDate.minusHours(1);
 		
-		person.setBirthDate(birthDate);
-		person.setDeathDate(deathDate);
+		woman.setBirthDate(birthDate);
+		woman.setDeathDate(deathDate);
 		
 	}
 	
@@ -85,14 +68,14 @@ public class PersonTest {
 		
 		
 		DateTime deathDate = new DateTime().minusDays(-1);
-		person.setDeathDate(deathDate);
+		woman.setDeathDate(deathDate);
 	}
 	
 	@Test(expected = IllegalArgumentException.class) 
 	public void testIllegalBirthDateInFuture() {
 		
 		DateTime birthDate = new DateTime().minusDays(-1);
-		person.setBirthDate(birthDate);
+		woman.setBirthDate(birthDate);
 		
 	}
 	
@@ -133,6 +116,7 @@ public class PersonTest {
 		assertTrue(man.firstName() == firstName);
 		assertTrue(man.lastName() == lastName);		
 	}
-
+	
+	
 }
 
