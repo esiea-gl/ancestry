@@ -30,6 +30,7 @@ public class Couple {
 	
 	public void setFather(Man father) {
 		this.father = father;
+		father.setCouple(this);
 	}
 	
 	public Woman getMother() {
@@ -38,6 +39,7 @@ public class Couple {
 
 	public void setMother(Woman mother) {
 		this.mother = mother;
+		mother.setCouple(this);
 	}
 	
 	public List<Person> childrens() {
@@ -47,7 +49,10 @@ public class Couple {
 	public void addChild(Person child) {
 		
 		if(!canHaveChildren()) return;
-		if(!childrens.contains(child)) childrens.add(child);
+		if(!childrens.contains(child)) {
+			childrens.add(child);
+			child.setParents(this);
+		}
 	}
 	
 	public void removeChild(Person child) {

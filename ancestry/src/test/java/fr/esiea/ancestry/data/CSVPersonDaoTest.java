@@ -24,9 +24,9 @@ public class CSVPersonDaoTest {
 
 	private PersonDao dao;
 	private final String csv = "#id|Prenom|Nom|Sexe|Pere|Mere|Date de naissance\n" 
-			+ "1|Paul|Dupuit|M||306|12/03/1940\n"
+			+ "1|Paul|Dupuit|M|||12/03/1940\n"
 			+ "2|Marie|Loup|F|||26/11/1943\n"
-			+ "3|Gerome|Tarot|M|||10/10/1947\n";
+			+ "3|Gerome|Tarot|M|1|2|10/10/1947\n";
 	
 	
 	@Before
@@ -56,22 +56,27 @@ public class CSVPersonDaoTest {
 	
 	@Test 
 	public void retrieveTest() {
-		Person man = dao.get(0);
+		Person man = dao.get(1);
 		
 		assertNotNull(man);
 		assertTrue(man.firstName().equals("Paul"));
 		assertTrue(man.lastName().equals("Dupuit"));
 		assertTrue(man instanceof Man);
 		
-		Person woman = dao.get(1);
+		Person woman = dao.get(2);
 		
 		assertNotNull(woman);
 		assertTrue(woman.firstName().equals("Marie"));
 		assertTrue(woman.lastName().equals("Loup"));
 		assertTrue(woman instanceof Woman);
+		
+		Person child = dao.get(3);
+		assertNotNull(child);
+		assertTrue(child.firstName().equals("Gerome"));
+		assertTrue(child.getMother() == woman);
+		assertTrue(child.getFather() == man);
 	}
-	
-	
+		
 	@Test
 	public void saveTest() throws IOException {
 		
@@ -88,7 +93,7 @@ public class CSVPersonDaoTest {
 		reader.close();
 		
 		Assert.assertNotNull(newDao.all());
-		Assert.assertTrue(newDao.get(0).firstName().equals(dao.get(0).firstName()));
+		Assert.assertTrue(newDao.get(1).firstName().equals(dao.get(1).firstName()));
 		Assert.assertTrue(newDao.find("John").get(0).getId() == 4);
 		
 		File file = new File(filename);

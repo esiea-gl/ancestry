@@ -77,6 +77,10 @@ public abstract class Person {
 	public Couple getCouple() {
 		return itsCouple;
 	}
+	
+	public void setCouple(Couple couple) {
+		itsCouple = couple;
+	}
 		
 	public void setParents(Couple parents) {
 		parents.addChild(this);

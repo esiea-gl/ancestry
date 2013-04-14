@@ -8,7 +8,7 @@ import fr.esiea.ancestry.domain.Person;
 
 public interface PersonDao {
 
-		Person get(int index);
+		Person get(int id);
 		List<Person> find(String name);
 		List<Person> all();
 		void save(Writer writer, List<Person> persons) throws IOException;

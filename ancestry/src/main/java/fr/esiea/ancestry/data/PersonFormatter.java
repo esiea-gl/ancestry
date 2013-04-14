@@ -27,11 +27,11 @@ public class PersonFormatter {
 		
 		// required values
 		Person p = new Person.Builder(firstName, lastName).Build(gender);
-		p.setId(Integer.parseInt(id));
+		p.setId(Integer.parseInt(id, 10));
 		
 		// optional values 
-		if(!fatherId.isEmpty()) p.setFatherId(Integer.parseInt(fatherId));
-		if(!motherId.isEmpty()) p.setMotherId(Integer.parseInt(motherId));
+		if(!fatherId.isEmpty()) p.setFatherId(Integer.parseInt(fatherId, 10));
+		if(!motherId.isEmpty()) p.setMotherId(Integer.parseInt(motherId, 10));
 		if(!birthDate.isEmpty()) p.setBirthDate(dateFormatter.parseDateTime(birthDate));
 		if(!deathDate.isEmpty()) p.setDeathDate(dateFormatter.parseDateTime(deathDate));
 		

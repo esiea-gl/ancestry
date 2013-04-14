@@ -12,7 +12,10 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVStrategy;
 
+import fr.esiea.ancestry.domain.Couple;
+import fr.esiea.ancestry.domain.Man;
 import fr.esiea.ancestry.domain.Person;
+import fr.esiea.ancestry.domain.Woman;
 
 public class CSVPersonDao implements PersonDao {
 
@@ -34,10 +37,12 @@ public class CSVPersonDao implements PersonDao {
 			persons.add(p);
 			personMap.put(p.getId(), p);
 		}
+		
+		linkPerson();
 	}
 	
-	public Person get(int index) {
-		return persons.get(index);
+	public Person get(int id) {
+		return personMap.get(id);
 	}
 
 	public List<Person> find(String name) {
@@ -73,5 +78,26 @@ public class CSVPersonDao implements PersonDao {
 		return id;
 	}
 	
+	private void linkPerson(){
+		
+		for(Person p : persons) {
+			// TODO : catch cast error : error Homo 
+			Man father = (Man) personMap.get(p.getFatherId());
+			Woman mother = (Woman) personMap.get(p.getMotherId());
+			
+			if(father == null || mother == null) continue;
+			
+			// link parents
+			Couple parents = new Couple();
+			if(father.getCouple() != mother.getCouple()) {
+				parents.setFather(father);
+				parents.setMother(mother);
+			}
+			
+			// link child
+			parents.addChild(p);
+			
+		}
+	}
 	
 }
