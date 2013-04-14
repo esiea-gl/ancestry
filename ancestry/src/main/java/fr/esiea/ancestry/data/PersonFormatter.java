@@ -41,9 +41,6 @@ public class PersonFormatter {
 	public String[] print(Person p) {
 		List<String> values = new ArrayList<String>();
 		
-		
-		if(p.getId() == 0) p.setId(generateId());
-		
 		values.add(String.valueOf(p.getId()));
 		values.add(p.firstName());
 		values.add(p.lastName());
@@ -62,14 +59,9 @@ public class PersonFormatter {
 		return dateFormatter.print(date);
 	}
 	
-	
-	
 	private String getParentId(Person p) {
 		return (p.getId() != 0) ? String.valueOf(p.getId()) :"";
 	}
 	
-	private int generateId() {
-		return 0;
-	}
 	
 }

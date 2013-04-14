@@ -3,6 +3,7 @@ package fr.esiea.ancestry.data;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class CSVPersonDaoTest {
 	private final String csv = "#id|Prenom|Nom|Sexe|Pere|Mere|Date de naissance\n" 
 			+ "1|Paul|Dupuit|M||306|12/03/1940\n"
 			+ "2|Marie|Loup|F|||26/11/1943\n"
-			+ "2|Gerome|Tarot|M|||10/10/1947\n";
+			+ "3|Gerome|Tarot|M|||10/10/1947\n";
 	
 	
 	@Before
@@ -74,16 +75,24 @@ public class CSVPersonDaoTest {
 	@Test
 	public void saveTest() throws IOException {
 		
-		Writer writer = new FileWriter("test.csv");
-		dao.save(writer, dao.all());
+		String filename = "test.csv";
+		List<Person> persons = dao.all();
+		persons.add(new Person.Builder("John", "Doe").Build("M"));
+		
+		Writer writer = new FileWriter(filename);
+		dao.save(writer, persons);
 		writer.close();
 		
-		Reader reader = new FileReader("test.csv");
+		Reader reader = new FileReader(filename);
 		PersonDao newDao = new CSVPersonDao(reader, '|', '#');
 		reader.close();
 		
 		Assert.assertNotNull(newDao.all());
 		Assert.assertTrue(newDao.get(0).firstName().equals(dao.get(0).firstName()));
+		Assert.assertTrue(newDao.find("John").get(0).getId() == 4);
+		
+		File file = new File(filename);
+		file.delete();
 		
 	}
 }

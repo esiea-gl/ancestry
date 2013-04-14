@@ -18,7 +18,7 @@ public class CSVFormatterTest {
 	}
 	
 	@Test
-	public void parseTest() {
+	public void testParse() {
 		
 		String[] values = {"1", "Quentin", "Chouleur", "M", "", "", "", ""};
 		Person p = formatter.parse(values);
@@ -29,7 +29,7 @@ public class CSVFormatterTest {
 	}
 	
 	@Test
-	public void printTest() {
+	public void testPrint() {
 		Person p = new Person.Builder("Jean", "Jacques")
 							.birthDate(new DateTime().minusYears(10))
 							.deathDate(new DateTime().minusYears(2))
