@@ -23,42 +23,23 @@ public class PersonTest {
 		
 	}
 	
-	@Test
-	public void testAddChild() {
 		
-		Person firstChild = new Woman();
-		Person secondChild = new Man();
-		Person thirdChild = new Woman();
-		
-		woman.addChild(firstChild);
-		woman.addChild(secondChild);
-		woman.addChild(thirdChild);
-	
-		assertTrue(woman.childCount() == 3);
-		assertNotNull(woman.childs());
-	}
-	
-	@Test
-	public void testRemoveChild() {
-		Person child = new Woman();
-		woman.addChild(child);
-		assertTrue(woman.childCount() == 1);
-		woman.removeChild(child);
-		assertTrue(woman.childCount() == 0);
-	}
-	
 	@Test
 	public void testSetMother() {
-		woman.setMother(new Woman());
-		assertNotNull(woman.mother());
-		assertTrue(woman.mother().childCount() > 0);
+		Couple parents = new Couple();
+		parents.setMother(new Woman());
+		
+		man.setParents(parents);
+		assertTrue(parents.childCount() == 1);
 	}
 	
 	@Test
 	public void testSetFather(){
-		woman.setFather(new Man());
-		assertNotNull(woman.father());
-		assertTrue(woman.father().childCount() > 0);
+		Couple parents = new Couple();
+		parents.setFather(new Man());
+		
+		man.setParents(parents);
+		assertTrue(parents.childCount() == 1);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -136,19 +117,6 @@ public class PersonTest {
 		assertTrue(man.lastName() == lastName);		
 	}
 	
-	@Test 
-	public void testInsertChildWithInvalidParentAge()
-	{
-		Person child = new Person.Builder("Enrico", "L'abricot").Build("M");
-		
-		man.setBirthDate(new DateTime().minusYears(9));
-		man.addChild(child);
-		assertTrue(man.childCount() == 0);
-		
-		woman.setBirthDate(new DateTime().minusYears(12));
-		woman.addChild(child);
-		assertTrue(woman.childCount() == 0);
-	}
 	
 }
 

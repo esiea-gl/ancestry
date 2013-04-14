@@ -20,7 +20,8 @@ public class CSVPersonDaoTest {
 	private PersonDao dao;
 	private final String csv = "#id|Prenom|Nom|Sexe|Pere|Mere|Date de naissance\n" 
 			+ "1|Paul|Dupuit|M||306|12/03/1940\n"
-			+ "2|Marie|Loup|F|||26/11/1943\n";
+			+ "2|Marie|Loup|F|||26/11/1943\n"
+			+ "2|Gerome|Tarot|M|||10/19/1947\n";
 	
 	
 	@Before
@@ -32,11 +33,11 @@ public class CSVPersonDaoTest {
 	
 	@Test
 	public void searchTest() {
-		List<Person> results = dao.find("Paul");
+		List<Person> results = dao.find("Ta");
 		
 		assertNotNull(results);
 		assertTrue(!results.isEmpty());
-		assertTrue(results.get(0).firstName().equals("Paul"));
+		assertTrue(results.get(0).firstName().equals("Gerome"));
 	}
 	
 	@Test

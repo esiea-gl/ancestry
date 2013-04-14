@@ -29,11 +29,11 @@ public class CSVPersonDao implements PersonDao {
 
 	public List<Person> find(String name) {
 		
-		String regex = "(.*?)" + name + "(.*?)";
+		String regex = "(.*?)" + name.toUpperCase() + "(.*?)";
 		List<Person> results = new ArrayList<Person>();
 		
 		for(Person p : persons) {
-			if(p.fullName().matches(regex))
+			if(p.fullName().toUpperCase().matches(regex))
 				results.add(p);
 		}
 		
