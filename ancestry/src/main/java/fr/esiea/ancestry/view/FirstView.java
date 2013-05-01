@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -18,9 +19,11 @@ public class FirstView extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 8530915770379792683L;
 	private JButton loadFileButton, createButton;
+	private JFrame frame;
 	
-	public FirstView() {
+	public FirstView(JFrame frame) {
 		
+		this.frame = frame;
 		loadFileButton = createLoadFileButton();
 		createButton = createCreateButton();
 		
@@ -66,13 +69,17 @@ public class FirstView extends JPanel implements ActionListener{
 				fileName = fileChooser.getSelectedFile().toString();
 				Database instance = Database.getInstance();
 				instance.Load(fileName);
-				instance.find("Dupuit");
-				System.out.println(instance.find("dupuit").toString());
-				System.out.println("le nombre de personne est : " + instance.all().size());
+				frame.getContentPane().removeAll();
+				frame.getContentPane().add(new SearchView(frame));
+				frame.pack();
+				frame.repaint();
 			}
 		}
 		else if(evt.getActionCommand().equals("Create")){
-			System.out.println("TODO : Creation View");
+			frame.getContentPane().removeAll();
+			frame.getContentPane().add(new CreateTreeView(frame));
+			frame.pack();
+			frame.repaint();
 		}
 		
 	}

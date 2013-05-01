@@ -43,7 +43,7 @@ public class GUI extends JFrame {
 	 */
 	public GUI() {
 		
-		firstView = new FirstView();
+		firstView = new FirstView(this);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 500);

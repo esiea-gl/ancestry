@@ -31,9 +31,11 @@ public class SearchView extends JPanel implements ActionListener {
 	
 	private JButton searchButton;
 	private TableModel model;
+	private JFrame frame;
 
-	public SearchView() {
+	public SearchView(JFrame frame) {
 		super();
+		this.frame = frame;
 		setPreferredSize(new Dimension(700, 500));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		table = createTable(db.all());
@@ -85,22 +87,7 @@ public class SearchView extends JPanel implements ActionListener {
 		table.setFillsViewportHeight(true);
 		return table;
 	}
-
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("TableFilterDemo");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		Database.getInstance().Load("csv.txt");
-
-		// Create and set up the content pane.
-		SearchView newContentPane = new SearchView();
-		newContentPane.setOpaque(true);
-		frame.setContentPane(newContentPane);
-
-		// Display the window.
-		frame.pack();
-		frame.setVisible(true);
-	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
@@ -126,6 +113,11 @@ public class SearchView extends JPanel implements ActionListener {
 			this.fireTableDataChanged();
 		}
 
+		@Override
+		public String getColumnName(int columnIndex) {
+			return columnHeaders[columnIndex];
+		}
+		
 		@Override
 		public int getColumnCount() {
 			return columnHeaders.length;
