@@ -16,14 +16,14 @@ public class Database {
 	private PersonDao _dao;
 
 	private Database() {
+		_dao = new EmptyDao();
 	}
 
 	public void Load(String path) {
-
-
 		try {
 			Reader in = new BufferedReader(new FileReader(path));
 			_dao = new CSVPersonDao(in, '|', '#');
+			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -37,6 +37,7 @@ public class Database {
 		try {
 			Writer out = new FileWriter(path);
 			_dao.save(out, _dao.all());
+			out.close();
 		} catch (IOException e) {
 
 		}

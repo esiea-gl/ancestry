@@ -58,17 +58,9 @@ public class FirstView extends JPanel implements ActionListener{
 
 		if(evt.getActionCommand().equals("Load"))
 		{
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV file", "csv", "CSV");
-			String fileName;
-			JFileChooser fileChooser = new JFileChooser();
-			fileChooser.addChoosableFileFilter(filter);
-			
-			int retVal = fileChooser.showOpenDialog(null);
-			
-			if (retVal == JFileChooser.APPROVE_OPTION) {
-				fileName = fileChooser.getSelectedFile().toString();
-				Database instance = Database.getInstance();
-				instance.Load(fileName);
+			CSVFileChooser fileChooser = new CSVFileChooser();
+			if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				Database.getInstance().Load(fileChooser.getSelectedFile().toString());
 				frame.getContentPane().removeAll();
 				frame.getContentPane().add(new SearchView(frame));
 				frame.pack();

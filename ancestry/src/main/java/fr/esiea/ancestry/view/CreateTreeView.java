@@ -1,5 +1,7 @@
 package fr.esiea.ancestry.view;
 
+import java.awt.Dimension;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -7,16 +9,19 @@ import javax.swing.JPanel;
 
 public class CreateTreeView extends JPanel {
 
+	private static final long serialVersionUID = 4861455606745082664L;
 	private JFrame frame;
 
 	public CreateTreeView(JFrame frame) {
 
+		this.setPreferredSize(new Dimension(700,500));
+		
 		this.frame = frame;
 		JLabel lab = new JLabel("Création d'un arbre");
 		JButton but = new JButton("OK");
-		JPanel enfant = new CreatePanel("Enfant :");
-		JPanel pere = new CreatePanel("Père :");
-		JPanel mere = new CreatePanel("Mère :");
+		JPanel enfant = new PersonCreationFormularView("Enfant :");
+		JPanel pere = new PersonCreationFormularView("Père :");
+		JPanel mere = new PersonCreationFormularView("Mère :");
 
 		this.setLayout(null);
 		this.add(lab);
