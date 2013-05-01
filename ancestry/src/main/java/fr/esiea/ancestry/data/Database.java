@@ -14,29 +14,46 @@ public class Database {
 
 	private static Database _instance;
 	private PersonDao _dao;
+<<<<<<< HEAD
 
 	private Database() {
 	}
 
 	public void Load(String path) {
 
+=======
+	
+	private Database() { }
+	
+	public void Load(String path) {
+		
+>>>>>>> upstream/master
 		try {
 			Reader in = new BufferedReader(new FileReader(path));
 			_dao = new CSVPersonDao(in, '|', '#');
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> upstream/master
 	}
 
 	public Person get(int id) {
 		return _dao.get(id);
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> upstream/master
 	public void Save(String path) {
 		try {
 			Writer out = new FileWriter(path);
 			_dao.save(out, _dao.all());
+<<<<<<< HEAD
 		} catch (IOException e) {
 
 		}
@@ -58,3 +75,24 @@ public class Database {
 	}
 
 }
+=======
+		} catch(IOException e) {
+			
+		}
+	}
+	
+	public List<Person> all(){
+		return _dao.all();
+	}
+	
+	public List<Person> find(String name){
+		return _dao.find(name);
+	}
+	
+	public static Database getInstance() { 
+		
+		if(_instance == null) _instance = new Database();
+		return _instance; 
+	}
+}
+>>>>>>> upstream/master
