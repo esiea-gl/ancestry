@@ -41,6 +41,4 @@ public class CSVFormatterTest {
 		Assert.assertTrue(values.length > 0);
 		Assert.assertTrue(values[1].equals("Jean"));
 	}
-	
-	
 }

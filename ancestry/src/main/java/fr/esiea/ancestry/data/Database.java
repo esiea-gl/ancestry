@@ -54,5 +54,4 @@ public class Database {
 		if(_instance == null) _instance = new Database();
 		return _instance; 
 	}
-
 }
