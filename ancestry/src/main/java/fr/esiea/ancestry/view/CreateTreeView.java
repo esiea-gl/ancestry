@@ -1,7 +1,5 @@
 package fr.esiea.ancestry.view;
 
-import java.awt.Dimension;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,7 +12,7 @@ public class CreateTreeView extends JPanel {
 
 	public CreateTreeView(JFrame frame) {
 
-		this.setPreferredSize(new Dimension(700,500));
+		this.setPreferredSize(ViewParams.VIEW_DIMENSION);
 		
 		this.frame = frame;
 		JLabel lab = new JLabel("Création d'un arbre");

@@ -29,6 +29,7 @@ public class GUI extends JFrame implements ActionListener {
 	private JMenuItem close;
 	private JButton help;
 	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -121,7 +122,7 @@ public class GUI extends JFrame implements ActionListener {
 			this.dispose();
 		}
 		else if (source == help) {
-			System.out.println("it's my life");
+			moveToView(new HelpView(this));
 		}
 	}
 	

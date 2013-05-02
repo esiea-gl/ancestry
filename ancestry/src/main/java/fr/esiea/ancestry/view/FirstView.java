@@ -23,6 +23,8 @@ public class FirstView extends JPanel implements ActionListener{
 	
 	public FirstView(JFrame frame) {
 		
+		setPreferredSize(ViewParams.VIEW_DIMENSION);
+		
 		this.frame = frame;
 		loadFileButton = createLoadFileButton();
 		createButton = createCreateButton();

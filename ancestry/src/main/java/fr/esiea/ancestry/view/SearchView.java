@@ -36,7 +36,7 @@ public class SearchView extends JPanel implements ActionListener {
 	public SearchView(JFrame frame) {
 		super();
 		this.frame = frame;
-		setPreferredSize(new Dimension(700, 500));
+		setPreferredSize(ViewParams.VIEW_DIMENSION);
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		table = createTable(db.all());
 		tableScroller = new JScrollPane(table);
