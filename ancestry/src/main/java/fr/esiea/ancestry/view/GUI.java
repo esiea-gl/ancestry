@@ -1,9 +1,12 @@
 package fr.esiea.ancestry.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -18,9 +21,13 @@ public class GUI extends JFrame implements ActionListener {
 
 
 	private static final long serialVersionUID = -4524641852995756757L;
+	private JMenuBar menuBar;
+	private JMenu fileMenu;
 	private JMenuItem newFile;
 	private JMenuItem loadFile;
 	private JMenuItem saveFile;
+	private JMenuItem close;
+	private JButton help;
 	
 	/**
 	 * Launch the application.
@@ -49,24 +56,38 @@ public class GUI extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 500);
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
+		menuBar.setForeground(Color.BLUE);
 		setJMenuBar(menuBar);
 
-		
-		JMenu fileMenu = new JMenu("Fichier");	
+		fileMenu = new JMenu("Fichier");	
 		menuBar.add(fileMenu);
+
 		
+		help = new JButton("Aide");
 		newFile = new JMenuItem("Nouveau");
 		loadFile = new JMenuItem("Ouvrir");
 		saveFile = new JMenuItem("Sauvegarder");
+		close = new JMenuItem("Quitter");
+		
+		help.setFocusPainted(false);
+		help.setOpaque(false);
+		help.setBackground(new Color(0, 0, 0, 0));
+		help.setBorderPainted(false);
+		help.setMargin(new Insets(2, 2, 2, 2));
 		
 		newFile.addActionListener(this);
 		loadFile.addActionListener(this);
 		saveFile.addActionListener(this);
+		close.addActionListener(this);
+		help.addActionListener(this);
 		
 		fileMenu.add(newFile);
 		fileMenu.add(loadFile);
 		fileMenu.add(saveFile);
+		fileMenu.add(close);
+		
+		menuBar.add(help);
 
 		setContentPane(firstView);
 	}
@@ -95,6 +116,12 @@ public class GUI extends JFrame implements ActionListener {
 			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 				Database.getInstance().Save(fileChooser.getSelectedFile().toString());
 			}
+		} 
+		else if (source == close) {
+			this.dispose();
+		}
+		else if (source == help) {
+			System.out.println("it's my life");
 		}
 	}
 	
