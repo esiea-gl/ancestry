@@ -17,10 +17,23 @@ public class PersonCell extends mxCell{
 			  this.setStyle("align=align_left;strokeColor=black;fontColor=black");
 		  }
 		  else{
-			  this.setStyle("strokeColor=black;fillColor=pink;fontColor=black");
+			  this.setStyle("align=align_left;strokeColor=black;fillColor=pink;fontColor=black");
 		  }
-		  String texte = " Nom           : " + person.lastName() +
-			  			 "\n Prénom      : " + person.firstName();
+		  
+		  
+		  String texte = null;
+
+		  if (person.lastName()!=null){
+			  texte = " Nom           : " + person.lastName();
+		  }else{
+			  texte = " Nom           : NC";
+		  }
+
+		  if (person.firstName()!=null){
+			  texte = texte + "\n Prénom      : " + person.firstName();
+		  }else{
+			  texte = texte + "\n Prénom      : NC";
+		  }
 		  
 		  if (person.birthDate()!=null){
 			  texte = texte + "\n Naissance : " + dateFormatter.print(person.birthDate());
@@ -36,7 +49,7 @@ public class PersonCell extends mxCell{
 		  
 		  this.setValue(texte);
 		  
-		  mxGeometry geo = new mxGeometry(x, y, 120, 70);
+		  mxGeometry geo = new mxGeometry(x, y, 121, 70);
 		  this.setGeometry(geo);
 		  geo.setRelative(false);
 		  this.setParent(null);
