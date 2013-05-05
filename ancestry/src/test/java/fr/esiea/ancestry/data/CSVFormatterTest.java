@@ -1,7 +1,7 @@
 package fr.esiea.ancestry.data;
 
-import org.junit.Assert;
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
