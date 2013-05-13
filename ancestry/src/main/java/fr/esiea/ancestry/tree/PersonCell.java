@@ -12,7 +12,7 @@ import fr.esiea.ancestry.domain.Person;
 
 public class PersonCell extends mxCell{
 	private final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd/MM/yyyy");
-	  public PersonCell(Person person,int x, int y){
+	  public PersonCell(Person person,double x, double y){
 		  if(person.gender().equals("M")){
 			  this.setStyle("align=align_left;strokeColor=black;fontColor=black");
 		  }

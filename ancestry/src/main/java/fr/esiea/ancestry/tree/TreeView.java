@@ -41,9 +41,9 @@ public class TreeView extends JFrame {
 		treeView.setSize(1000, 1000);
 		treeView.setLocationRelativeTo(null);
 		
-		int x,y;
-		x=345;
-		y=100;
+		double x,y;
+		x=190;
+		y=350;
 		Man p = (Man) new Man.Builder("Jesus", "Crise").Build("M");
 		p.setBirthDate(null);
 		p.setDeathDate(new DateTime(2013, 05, 01, 0, 0));
@@ -54,7 +54,7 @@ public class TreeView extends JFrame {
 		p2.setDeathDate(new DateTime(2013, 05, 01, 0, 0));
 		
 
-		Man p3 = (Man) new Man.Builder("Joharno", "DelaMort").Build("M");
+		Woman p3 = (Woman) new Woman.Builder("Joharno", "DelaMort").Build("F");
 		p3.setBirthDate(new DateTime(2003, 05, 04, 0, 0));
 		p3.setDeathDate(new DateTime(2012, 8, 10, 0, 0));
 		
@@ -71,7 +71,7 @@ public class TreeView extends JFrame {
 		p6.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
 		p6.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
 		
-		Man p7 = (Man) new Man.Builder("Père", "Noël").Build("M");
+		Man p7 = (Man) new Man.Builder(null, null).Build("M");
 		p7.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
 		p7.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
 		
@@ -82,16 +82,36 @@ public class TreeView extends JFrame {
 		test.addChild(p5);
 		test.addChild(p6);
 		//test.addChild(p7);
+		test.addChild(p7);
 		
 		
 		
+		
+		//Ne pas touchez en dessous du trait lol
+		//--------------------------------
+		
+		
+		
+		//Parents du Père
+		PersonCell pereDePere =new PersonCell(p6,x,y);
+		PersonCell mereDePere =new PersonCell(p5,x+150,y);
 
+		//Parents de la Mère
+		PersonCell pereDeMere =new PersonCell(p7,x+350,y);
+		PersonCell mereDeMere =new PersonCell(p2,x+500,y);
+		
+		
+		x+=75;
+		y+=120;
+		
+		//Père et Mère
 		PersonCell pere =new PersonCell(test.getFather(),x,y);
-		PersonCell mere =new PersonCell(test.getMother(),x+150,y);
+		PersonCell mere =new PersonCell(test.getMother(),x+350,y);
+		
 		List<PersonCell> childs = new ArrayList<PersonCell>();
 		
 		int childCount = test.childCount();
-		x+=135;
+		x+=235;
 		if(childCount%2==0){
 			x-=((childCount/2)*(120+30)-15);
 		}else{
@@ -102,10 +122,9 @@ public class TreeView extends JFrame {
 			}
 		}
 		
-
+		//Enfants
 		for(int i=0;i<childCount;i++){
-		childs.add(new PersonCell(test.childrens().get(i),x,y+110));
-		
+		childs.add(new PersonCell(test.childrens().get(i),x,y+120));
 		x+=150;
 		}
 		
@@ -118,14 +137,37 @@ public class TreeView extends JFrame {
 		graph.getModel().beginUpdate();
 		try
 		{
-			Object v1 = graph.addCell(pere);
-			Object v2 = graph.addCell(mere);
+			Object v1 = graph.addCell(pereDePere);
+			Object v2 = graph.addCell(mereDePere);
+			
+			Object v3 = graph.addCell(pereDeMere);
+			Object v4 = graph.addCell(mereDeMere);
+			
+			Object v5 = graph.addCell(pere);
+			Object v6 = graph.addCell(mere);
 			
 			
+
+			//Liaison entre parents du Père
+			Object v7 = graph.insertVertex(parent, null, "", pereDePere.getGeometry().getX()+135, pereDePere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
+			graph.insertEdge(parent, null, "", v1, v7,"endArrow=none;strokeColor=black");
+			graph.insertEdge(parent, null, "", v7, v2,"endArrow=none;strokeColor=black");
+
+			//Liaison entre parents de la Mère
+			Object v8 = graph.insertVertex(parent, null, "", pereDeMere.getGeometry().getX()+135, pereDeMere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
+			graph.insertEdge(parent, null, "", v3, v8,"endArrow=none;strokeColor=black");
+			graph.insertEdge(parent, null, "", v8, v4,"endArrow=none;strokeColor=black");
+
+			//Liaison entre Père et Mère
+			Object v9 = graph.insertVertex(parent, null, "", pere.getGeometry().getX()+235, pere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
+			graph.insertEdge(parent, null, "", v5, v9,"endArrow=none;strokeColor=black");
+			graph.insertEdge(parent, null, "", v9, v6,"endArrow=none;strokeColor=black");
+
+			//Liaison entre parents du Père et Père
+			graph.insertEdge(parent, null, "", v7, v5,"strokeColor=black");
 			
-			Object v3 = graph.insertVertex(parent, null, "", pere.getGeometry().getX()+135, pere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
-			graph.insertEdge(parent, null, "", v1, v2,"endArrow=none;strokeColor=black");
-			graph.insertEdge(parent, null, "", v2, v3,"endArrow=none;strokeColor=black");
+			//Liaison entre parents de la Mère et Mère
+			graph.insertEdge(parent, null, "", v8, v6,"strokeColor=black");
 			
 			int j=0;
 			for(int i=0;i<childCount;i++){
@@ -136,10 +178,10 @@ public class TreeView extends JFrame {
 				
 				if(childCount%2==0 && childCount/2==j){
 					petitCube.add(graph.insertVertex(parent, null, "", childs.get(i).getGeometry().getX()+135, childs.get(i).getGeometry().getY()-20, 0, 0, "strokeColor=black;fontColor=black;fillColor=black"));
-					graph.insertEdge(parent, null, "", v3, petitCube.get(j),"endArrow=none;strokeColor=black");
+					graph.insertEdge(parent, null, "", v9, petitCube.get(j),"endArrow=none;strokeColor=black");
 					j++;
 				}else if(childCount%2!=0 && ((childCount-1)/2)+1==j){
-					graph.insertEdge(parent, null, "", v3, petitCube.get(j-1),"endArrow=none;strokeColor=black");
+					graph.insertEdge(parent, null, "", v9, petitCube.get(j-1),"endArrow=none;strokeColor=black");
 				}
 			}
 			
