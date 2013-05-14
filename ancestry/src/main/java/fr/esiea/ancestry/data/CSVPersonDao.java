@@ -35,6 +35,7 @@ public class CSVPersonDao implements PersonDao {
 		CSVParser parser = new CSVParser(reader, strategy);
 		
 		for(String[] line : parser.getAllValues()) {
+			if(line.length < 6 || line[0].contains("#")) continue;
 			Person p = personFormatter.parse(line);
 			persons.add(p);
 			personMap.put(p.getId(), p);
