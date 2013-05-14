@@ -8,6 +8,8 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.List;
 
+import fr.esiea.ancestry.domain.CycleException;
+import fr.esiea.ancestry.domain.InvalidGenderException;
 import fr.esiea.ancestry.domain.Person;
 
 public class Database {
@@ -19,7 +21,7 @@ public class Database {
 		_dao = new EmptyDao();
 	}
 
-	public void Load(String path) {
+	public void Load(String path) throws InvalidGenderException, CycleException {
 		try {
 			Reader in = new BufferedReader(new FileReader(path));
 			_dao = new CSVPersonDao(in, '|', '#');

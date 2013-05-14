@@ -74,6 +74,39 @@ public abstract class Person {
 	}
 	
 	
+	// Vérifie si un individu est un de ses ancêtres
+	public boolean hasAscendant(Person person) {
+		
+		if(this.getFather() == null 
+				|| this.getMother() == null) return false;
+		
+		// Vérifie si l'individu fait parti des ses parents
+		boolean isParent = 
+				this.getFather() == person 
+				|| this.getMother() == person;
+		
+		if(isParent) return true;
+		
+		return this.getFather().hasAscendant(person) 
+				|| this.getMother().hasAscendant(person);
+	}
+	
+	// Vérifie si un individu est dans sa descendance
+	public boolean hasDescendant(Person person) {
+		
+		if(this.getCouple() == null) return false;
+		
+		// Verifie si l'individu est dans ses enfants
+		if(this.getCouple().childrens().contains(person)) return true;
+		
+		// Vérifie si l'un de ses enfants est parent de l'individu
+		for(Person child : this.getCouple().childrens()) {
+			if(child.hasDescendant(person)) return true;
+		}
+		
+		return false;
+	}
+	
 	public Couple getCouple() {
 		return itsCouple;
 	}
@@ -88,10 +121,12 @@ public abstract class Person {
 	}
 	
 	public Man getFather() {
+		if(parents == null) return null;
 		return parents.getFather();
 	}
 	
 	public Woman getMother() {
+		if(parents == null) return null;
 		return parents.getMother();
 	}
 	
@@ -138,7 +173,7 @@ public abstract class Person {
 	}
 	
 	public String fullName() {
-		return firstName + lastName;
+		return firstName + " " + lastName;
 	}
 	
 	public String firstName() {

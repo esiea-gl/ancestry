@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import fr.esiea.ancestry.data.Database;
+import fr.esiea.ancestry.domain.CycleException;
+import fr.esiea.ancestry.domain.InvalidGenderException;
 
 public class GUI extends JFrame implements ActionListener {
 
@@ -103,8 +105,15 @@ public class GUI extends JFrame implements ActionListener {
 		} else if (source == loadFile) {
 			CSVFileChooser fileChooser = new CSVFileChooser();
 			if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				Database.getInstance().Load(fileChooser.getSelectedFile().toString());
-				moveToView(new SearchView(this));
+				
+				try {
+					Database.getInstance().Load(fileChooser.getSelectedFile().toString());
+					moveToView(new SearchView(this));
+				} catch (InvalidGenderException ex) {
+					JOptionPane.showMessageDialog(this, ex.getMessage());
+				} catch (CycleException ex) {
+					JOptionPane.showMessageDialog(this, ex.getMessage());
+				}
 			}
 		} else if (source == saveFile) {
 			

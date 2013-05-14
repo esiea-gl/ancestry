@@ -15,6 +15,8 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVStrategy;
 
 import fr.esiea.ancestry.domain.Couple;
+import fr.esiea.ancestry.domain.CycleException;
+import fr.esiea.ancestry.domain.InvalidGenderException;
 import fr.esiea.ancestry.domain.Man;
 import fr.esiea.ancestry.domain.Person;
 import fr.esiea.ancestry.domain.Woman;
@@ -26,7 +28,8 @@ public class CSVPersonDao implements PersonDao {
 	private final PersonFormatter personFormatter;
 	private final CSVStrategy strategy;
 	
-	public CSVPersonDao(Reader reader, char delimiter, char commentStart) throws IOException {
+	public CSVPersonDao(Reader reader, char delimiter, char commentStart) 
+			throws IOException, InvalidGenderException, CycleException {
 		persons = new ArrayList<Person>();
 		personMap = new HashMap<Integer, Person>();
 		personFormatter = new PersonFormatter();
@@ -81,14 +84,41 @@ public class CSVPersonDao implements PersonDao {
 		return id;
 	}
 	
-	private void linkPerson(){
+	private void linkPerson() throws InvalidGenderException, CycleException{
 		
 		for(Person p : persons) {
-			// TODO : catch cast error : error Homo 
-			Man father = (Man) personMap.get(p.getFatherId());
-			Woman mother = (Woman) personMap.get(p.getMotherId());
+
+			Man father = null;
+			Woman mother = null;
+			
+			try {
+				father = (Man) personMap.get(p.getFatherId());
+				
+			} catch(ClassCastException e) {
+				throw new InvalidGenderException(
+						personMap.get(p.getFatherId()).fullName());
+			}
+			
+			try {
+				mother = (Woman) personMap.get(p.getMotherId());
+				
+			} catch(ClassCastException e) {
+				throw new InvalidGenderException(
+						personMap.get(p.getMotherId()).fullName());
+			}
+			
+			
 			
 			if(father == null || mother == null) continue;
+			
+			// Verifie si les parents ne sont pas dans sa déscendance 
+			// ou si l'enfant est pas dans les ancestres des parents
+			if(p.hasDescendant(father) || father.hasAscendant(p)) 
+				throw new CycleException(father.fullName(), p.fullName());
+				
+			if(p.hasDescendant(mother) || p.hasDescendant(mother)) 
+				throw new CycleException(mother.fullName(), p.fullName());
+			
 			
 			// link parents
 			Couple parents = new Couple();

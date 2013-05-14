@@ -9,10 +9,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import fr.esiea.ancestry.data.Database;
+import fr.esiea.ancestry.domain.CycleException;
+import fr.esiea.ancestry.domain.InvalidGenderException;
 
 public class FirstView extends JPanel implements ActionListener{
 
@@ -61,11 +64,18 @@ public class FirstView extends JPanel implements ActionListener{
 		{
 			CSVFileChooser fileChooser = new CSVFileChooser();
 			if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				Database.getInstance().Load(fileChooser.getSelectedFile().toString());
-				frame.getContentPane().removeAll();
-				frame.getContentPane().add(new SearchView(frame));
-				frame.pack();
-				frame.repaint();
+				
+				try {
+					Database.getInstance().Load(fileChooser.getSelectedFile().toString());
+					frame.getContentPane().removeAll();
+					frame.getContentPane().add(new SearchView(frame));
+					frame.pack();
+					frame.repaint();
+				} catch (InvalidGenderException e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				} catch (CycleException e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
 			}
 		}
 		else if(evt.getActionCommand().equals("Create")){
