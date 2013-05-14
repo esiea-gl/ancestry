@@ -101,10 +101,14 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			Man p6 = (Man) new Man.Builder("Père", "Noël").Build("M");
 			p6.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
 			p6.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-			
-			Man p7 = (Man) new Man.Builder(null, null).Build("M");
+
+			Man p7 = (Man) new Man.Builder("Père", "Père").Build("M");
 			p7.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
 			p7.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
+
+			Man p8 = (Man) new Man.Builder("Pèrfcbfde", "Psddgfère").Build("M");
+			p8.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
+			p8.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
 			
 			Couple test1 = new Couple();
 			Couple test2 = new Couple();
@@ -113,10 +117,15 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			test1.setMother(p2);
 			test2.setFather(p4);
 			test2.setMother(p3);
+			p6.setParents(test1);
+			p5.setParents(test2);
 			test1.addChild(p6);
 			test2.addChild(p5);
 			test3.setFather(p6);
 			test3.setMother(p5);
+
+			test3.addChild(p7);
+			test3.addChild(p8);
 			
 			
 			frame.getContentPane().removeAll();

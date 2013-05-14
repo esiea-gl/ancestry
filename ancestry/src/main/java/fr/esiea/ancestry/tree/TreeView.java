@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 
+
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
@@ -25,13 +26,13 @@ import fr.esiea.ancestry.domain.Person;
 
 // NB : never use setSize(), use setPreferedSize() instead
 
-public class TreeView extends JPanel {
+public class TreeView extends JFrame {
 
 	private static final long serialVersionUID = 1882182391251137556L;
-	private JFrame frame;
 	public JPanel tree; 
 	
 	public TreeView(JFrame frame, Person person) {
+		frame.getContentPane().removeAll();
 		frame.getContentPane().add(this.createUI());
 		frame.setSize(1000, 1000);
 		frame.setLocationRelativeTo(null);
@@ -104,7 +105,7 @@ public class TreeView extends JPanel {
 			Object v6 = graph.addCell(mere);
 			
 			
-
+			
 			//Liaison entre parents du Père
 			Object v7 = graph.insertVertex(parent, null, "", pereDePere.getGeometry().getX()+135, pereDePere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
 			graph.insertEdge(parent, null, "", v1, v7,"endArrow=none;strokeColor=black");
@@ -119,7 +120,7 @@ public class TreeView extends JPanel {
 			Object v9 = graph.insertVertex(parent, null, "", pere.getGeometry().getX()+235, pere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
 			graph.insertEdge(parent, null, "", v5, v9,"endArrow=none;strokeColor=black");
 			graph.insertEdge(parent, null, "", v9, v6,"endArrow=none;strokeColor=black");
-
+			
 			//Liaison entre parents du Père et Père
 			graph.insertEdge(parent, null, "", v7, v5,"strokeColor=black");
 			
