@@ -15,8 +15,10 @@ public class PersonCreationFormularView extends JPanel {
 	private static final long serialVersionUID = 2537484965786463541L;
 	  JTextField lastNameField = new JTextField();
 	  JTextField firstNameField = new JTextField();
-	  JTextField birthDateField = new JTextField();
+	  JTextField birthDateField = new JTextField("jj/mm/aaaa");
 	  ButtonGroup buttonGroup = new ButtonGroup();
+	  JRadioButton maleChoice;
+	  JRadioButton femaleChoice;
 
 	public PersonCreationFormularView(String personTitle){
 		  setLayout(new BorderLayout());
@@ -34,8 +36,8 @@ public class PersonCreationFormularView extends JPanel {
 		  //JTextField birthDateField = new JTextField();
 		  
 		  JLabel sexLabel = new JLabel("Sexe");
-		  JRadioButton maleChoice = new JRadioButton("Masculin");
-		  JRadioButton femaleChoice = new JRadioButton("Féminin");
+		  maleChoice = new JRadioButton("Masculin");
+		  femaleChoice = new JRadioButton("Féminin");
 		  
 		  ButtonGroup buttonGroup = new ButtonGroup();
 		  buttonGroup.add(maleChoice);

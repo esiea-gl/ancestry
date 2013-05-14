@@ -9,9 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import fr.esiea.ancestry.domain.Couple;
 import fr.esiea.ancestry.domain.Man;
+import fr.esiea.ancestry.domain.Person;
 import fr.esiea.ancestry.domain.Woman;
 import fr.esiea.ancestry.tree.TreeView;
 
@@ -20,12 +23,6 @@ public class CreateTreeView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 4861455606745082664L;
 	private JFrame frame;
 	JButton butOk;
-	Couple couple = new Couple();
-	Couple oldCouple = new Couple();
-	Man father;
-	Woman mother;
-	Man grandFather = null;
-	Woman grandMother = null;
 	PersonCreationFormularView enfant ;
 	PersonCreationFormularView pere ;
 	PersonCreationFormularView mere ;
@@ -75,64 +72,58 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			mother.setParents(oldCouple);
 			//couple.setMother(mother);*/
 			
-			Man pereDePere = (Man) new Man.Builder(null, null).Build("M");
-			pereDePere.setBirthDate(null);
-			pereDePere.setDeathDate(null);
+			//Création des parents du père
+			Man pereDePere = (Man) new Man.Builder(null, null).Build("M");			
+			Woman mereDePere = (Woman) new Woman.Builder(null, null).Build("F");
+
+			//Création des parents de la mère
+			Man pereDeMere = (Man) new Man.Builder(null, null).Build("M");			
+			Woman mereDeMere = (Woman) new Woman.Builder(null, null).Build("F");
+
+			//Création des parents		
+			Man father = (Man) new Man.Builder(pere.firstNameField.getText(), pere.lastNameField.getText()).Build("M");
+			father.setBirthDate(new DateTime( Integer.parseInt(pere.birthDateField.getText().substring(6, 10)), Integer.parseInt(pere.birthDateField.getText().substring(3, 5)), Integer.parseInt(pere.birthDateField.getText().substring(0, 2)),0,0));
 			
+			Woman mother = (Woman) new Woman.Builder(mere.firstNameField.getText(), mere.lastNameField.getText()).Build("F");
+			mother.setBirthDate(new DateTime( Integer.parseInt(mere.birthDateField.getText().substring(6, 10)), Integer.parseInt(mere.birthDateField.getText().substring(3, 5)), Integer.parseInt(mere.birthDateField.getText().substring(0, 2)),0,0));
 
-			Woman MereDePere = (Woman) new Woman.Builder("jinette", "Triquite").Build("F");
-			MereDePere.setBirthDate(null);
-			MereDePere.setDeathDate(null);
+			Person child = null;
+			//Création d'un enfant
+			if(!enfant.firstNameField.getText().isEmpty()){
+				if(enfant.maleChoice.isSelected()){
+						child = (Man) new Man.Builder(enfant.firstNameField.getText(), enfant.lastNameField.getText()).Build("M");
+						child.setBirthDate(new DateTime( Integer.parseInt(enfant.birthDateField.getText().substring(6, 10)), Integer.parseInt(enfant.birthDateField.getText().substring(3, 5)), Integer.parseInt(enfant.birthDateField.getText().substring(0, 2)),0,0));
+				}
+				if(enfant.femaleChoice.isSelected()){
+						child = (Woman) new Woman.Builder(enfant.firstNameField.getText(), enfant.lastNameField.getText()).Build("F");
+						child.setBirthDate(new DateTime( Integer.parseInt(enfant.birthDateField.getText().substring(6, 10)), Integer.parseInt(enfant.birthDateField.getText().substring(3, 5)), Integer.parseInt(enfant.birthDateField.getText().substring(0, 2)),0,0));
+				}
+			}
 			
-
-			Woman p3 = (Woman) new Woman.Builder("Joharno", "DelaMort").Build("F");
-			p3.setBirthDate(new DateTime(2003, 05, 04, 0, 0));
-			p3.setDeathDate(new DateTime(2012, 8, 10, 0, 0));
-			
-
-			Man p4 = (Man) new Man.Builder("Père", "Noël").Build("M");
-			p4.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-			p4.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-
-			Woman p5 = (Woman) new Woman.Builder("woucha", "zig").Build("F");
-			p5.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-			p5.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-
-			Man p6 = (Man) new Man.Builder("Père", "Noël").Build("M");
-			p6.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-			p6.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-
-			Man p7 = (Man) new Man.Builder("Père", "Père").Build("M");
-			p7.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-			p7.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-
-			Man p8 = (Man) new Man.Builder("Pèrfcbfde", "Psddgfère").Build("M");
-			p8.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-			p8.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-			
+			//Création des couples
 			Couple parentsPere = new Couple();
 			Couple parentsMere = new Couple();
 			Couple parents = new Couple();
-			
-			parentsPere.setFather(pereDePere);
-			parentsPere.setMother(MereDePere);
-			parentsMere.setFather(p4);
-			parentsMere.setMother(p3);
-			
-			p6.setParents(parentsPere);
-			p5.setParents(parentsMere);
-			
-			parentsPere.addChild(p6);
-			parentsMere.addChild(p5);
-			parents.setFather(p6);
-			parents.setMother(p5);
 
-			parents.addChild(p7);
-			parents.addChild(p8);
+			//Création des liaisons
+			parentsPere.setFather(pereDePere);
+			parentsPere.setMother(mereDePere);
 			
+			parentsMere.setFather(pereDeMere);
+			parentsMere.setMother(mereDeMere);
+			
+			parents.setFather(father);
+			parents.setMother(mother);
+			
+			father.setParents(parentsPere);
+			mother.setParents(parentsMere);
+			
+			if(child != null){
+				parents.addChild(child);
+			}
 			
 			frame.getContentPane().removeAll();
-			frame.getContentPane().add(new TreeView(frame, p6));
+			frame.getContentPane().add(new TreeView(frame, father));
 			frame.pack();
 			frame.repaint();
 		}

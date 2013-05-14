@@ -94,12 +94,7 @@ public class SearchView extends JPanel implements ActionListener {
 			      if (e.getClickCount() == 2) {
 			         JTable target = (JTable)e.getSource();
 			         int row = target.getSelectedRow();
-			         // tu récupèress le nom et le prénom de la case selectionner en tapant sur le model
-			         // et tu fais find et tu prend le premier résultat 
-			         // ensuite tu passes le relais à treeView
-			         // merci pour la syntethisation de voix
-			         // fait le, j'en ai marre
-			         // merci, ROGER THAT
+
 			         String firstName = (String) table.getModel().getValueAt(row, 0);
 			         String lastName = (String) table.getModel().getValueAt(row, 1);
 			        
@@ -107,7 +102,7 @@ public class SearchView extends JPanel implements ActionListener {
 			         if(results.isEmpty()) return;
 			         
 			         Person lemecsurquionaclique = results.get(0);
-			         // je laisse la main :) lol
+
 						frame.getContentPane().add(new TreeView(frame, lemecsurquionaclique));
 			         }
 			   }

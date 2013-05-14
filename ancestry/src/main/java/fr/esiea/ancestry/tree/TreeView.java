@@ -30,30 +30,34 @@ public class TreeView extends JFrame {
 		tree = new JPanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(tree);
-		frame.setSize(1000, 1000);
+		frame.setSize(800,500);
 		frame.setLocationRelativeTo(null);
 		
 		double x,y;
-		x=190;
-		y=350;
+		x=90;
+		y=0;
 		
 		Couple coupleDePerson = person.getCouple();
 		
 		
+			
 		
-		//Ne pas touchez en dessous du trait lol
-		//--------------------------------
-		
-		
+		PersonCell pereDePere = null;
+		PersonCell mereDePere = null;
+		PersonCell pereDeMere = null;
+		PersonCell mereDeMere = null;
 		
 		//Parents du Père
-		PersonCell pereDePere =new PersonCell(coupleDePerson.getFather().getFather(),x,y);
-		PersonCell mereDePere =new PersonCell(coupleDePerson.getFather().getMother(),x+150,y);
+		if(coupleDePerson.getFather().getFather().firstName()!= null || coupleDePerson.getFather().getMother().firstName()!= null){
+			pereDePere = new PersonCell(coupleDePerson.getFather().getFather(),x,y);
+			mereDePere = new PersonCell(coupleDePerson.getFather().getMother(),x+150,y);
+		}
 
 		//Parents de la Mère
-		PersonCell pereDeMere =new PersonCell(coupleDePerson.getMother().getFather(),x+350,y);
-		PersonCell mereDeMere =new PersonCell(coupleDePerson.getMother().getMother(),x+500,y);
-		
+		if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+			pereDeMere = new PersonCell(coupleDePerson.getMother().getFather(),x+350,y);
+			mereDeMere = new PersonCell(coupleDePerson.getMother().getMother(),x+500,y);
+		}
 		
 		x+=75;
 		y+=120;
@@ -91,37 +95,61 @@ public class TreeView extends JFrame {
 		graph.getModel().beginUpdate();
 		try
 		{
-			Object v1 = graph.addCell(pereDePere);
-			Object v2 = graph.addCell(mereDePere);
 			
-			Object v3 = graph.addCell(pereDeMere);
-			Object v4 = graph.addCell(mereDeMere);
+			Object v1 = null;
+			Object v2 = null;
+			Object v3 = null;
+			Object v4 = null;
+			Object v5 = null;
+			Object v6 = null;
+			Object v7 = null;
+			Object v8 = null;
+			Object v9 = null;
 			
-			Object v5 = graph.addCell(pere);
-			Object v6 = graph.addCell(mere);
 			
-			
+			if(coupleDePerson.getFather().getFather().firstName()!= null || coupleDePerson.getFather().getMother().firstName()!= null){
+			v1 = graph.addCell(pereDePere);
+			v2 = graph.addCell(mereDePere);
 			
 			//Liaison entre parents du Père
-			Object v7 = graph.insertVertex(parent, null, "", pereDePere.getGeometry().getX()+135, pereDePere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
+			v7 = graph.insertVertex(parent, null, "", pereDePere.getGeometry().getX()+135, pereDePere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
 			graph.insertEdge(parent, null, "", v1, v7,"endArrow=none;strokeColor=black");
 			graph.insertEdge(parent, null, "", v7, v2,"endArrow=none;strokeColor=black");
+			}
+
+			
+			if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+			v3 = graph.addCell(pereDeMere);
+			v4 = graph.addCell(mereDeMere);
 
 			//Liaison entre parents de la Mère
-			Object v8 = graph.insertVertex(parent, null, "", pereDeMere.getGeometry().getX()+135, pereDeMere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
+			v8 = graph.insertVertex(parent, null, "", pereDeMere.getGeometry().getX()+135, pereDeMere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
 			graph.insertEdge(parent, null, "", v3, v8,"endArrow=none;strokeColor=black");
 			graph.insertEdge(parent, null, "", v8, v4,"endArrow=none;strokeColor=black");
+			}
+			
+			
+			v5 = graph.addCell(pere);
+			v6 = graph.addCell(mere);
+			
+			
+			
+
 
 			//Liaison entre Père et Mère
-			Object v9 = graph.insertVertex(parent, null, "", pere.getGeometry().getX()+235, pere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
+			v9 = graph.insertVertex(parent, null, "", pere.getGeometry().getX()+235, pere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
 			graph.insertEdge(parent, null, "", v5, v9,"endArrow=none;strokeColor=black");
 			graph.insertEdge(parent, null, "", v9, v6,"endArrow=none;strokeColor=black");
-			
+
 			//Liaison entre parents du Père et Père
+			if(coupleDePerson.getFather().getFather()!= null || coupleDePerson.getFather().getMother() != null){
 			graph.insertEdge(parent, null, "", v7, v5,"strokeColor=black");
+			}
 			
 			//Liaison entre parents de la Mère et Mère
+			if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
 			graph.insertEdge(parent, null, "", v8, v6,"strokeColor=black");
+			}
 			
 			int j=0;
 			for(int i=0;i<childCount;i++){
@@ -160,7 +188,7 @@ public class TreeView extends JFrame {
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		graphComponent.setBorder(null);
 		graphComponent.setConnectable(false);
-		graphComponent.setPreferredSize(new Dimension(960,960));
+		graphComponent.setPreferredSize(new Dimension(800,500));
 		
 		this.tree.add(graphComponent);
 
