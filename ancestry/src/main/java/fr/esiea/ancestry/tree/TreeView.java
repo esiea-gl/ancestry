@@ -2,18 +2,12 @@ package fr.esiea.ancestry.tree;
 
 
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
 
 
 
@@ -32,8 +26,10 @@ public class TreeView extends JFrame {
 	public JPanel tree; 
 	
 	public TreeView(JFrame frame, Person person) {
+
+		tree = new JPanel();
 		frame.getContentPane().removeAll();
-		frame.getContentPane().add(this.createUI());
+		frame.getContentPane().add(tree);
 		frame.setSize(1000, 1000);
 		frame.setLocationRelativeTo(null);
 		
@@ -162,33 +158,15 @@ public class TreeView extends JFrame {
 		graph.setEdgeLabelsMovable(false);
 		graph.setVertexLabelsMovable(false);
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
-		//graphComponent.setBorder(null);
+		graphComponent.setBorder(null);
 		graphComponent.setConnectable(false);
 		graphComponent.setPreferredSize(new Dimension(960,960));
 		
 		this.tree.add(graphComponent);
 
 		
-		this.setVisible(true);
 		
 		
-	}
-	
-	
-	public JComponent createUI() {
-		tree = new JPanel();
-		tree.setPreferredSize(new Dimension(1000,1000));
-		tree.setBorder(BorderFactory.createLineBorder(Color.black, 20));
-		JScrollPane scroller = new JScrollPane(tree);
-		JViewport viewport = scroller.getViewport();
-		MouseAdapter mouseAdapter = new DragScrollListener();
-		viewport.addMouseMotionListener(mouseAdapter);
-		viewport.addMouseListener(mouseAdapter);
-		
-		scroller.getHorizontalScrollBar().setPreferredSize(new Dimension(0,0));
-		scroller.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
-		
-		return scroller;
 	}
 	
 }

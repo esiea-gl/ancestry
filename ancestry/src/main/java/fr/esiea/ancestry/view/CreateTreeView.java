@@ -50,9 +50,9 @@ public class CreateTreeView extends JPanel implements ActionListener{
 		this.add(enfant);
 		enfant.setBounds(20, 120, 320, 150);
 		this.add(pere);
-		pere.setBounds(360, 20, 320, 150);
+		pere.setBounds(360, 40, 320, 150);
 		this.add(mere);
-		mere.setBounds(360, 190, 320, 150);
+		mere.setBounds(360, 210, 320, 150);
 	}
 
 	@Override
@@ -75,14 +75,14 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			mother.setParents(oldCouple);
 			//couple.setMother(mother);*/
 			
-			Man p = (Man) new Man.Builder("Jesus", "Crise").Build("M");
-			p.setBirthDate(null);
-			p.setDeathDate(new DateTime(2013, 05, 01, 0, 0));
+			Man pereDePere = (Man) new Man.Builder(null, null).Build("M");
+			pereDePere.setBirthDate(null);
+			pereDePere.setDeathDate(null);
 			
 
-			Woman p2 = (Woman) new Woman.Builder("jinette", "Triquite").Build("F");
-			p2.setBirthDate(null);
-			p2.setDeathDate(new DateTime(2013, 05, 01, 0, 0));
+			Woman MereDePere = (Woman) new Woman.Builder("jinette", "Triquite").Build("F");
+			MereDePere.setBirthDate(null);
+			MereDePere.setDeathDate(null);
 			
 
 			Woman p3 = (Woman) new Woman.Builder("Joharno", "DelaMort").Build("F");
@@ -110,22 +110,25 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			p8.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
 			p8.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
 			
-			Couple test1 = new Couple();
-			Couple test2 = new Couple();
-			Couple test3 = new Couple();
-			test1.setFather(p);
-			test1.setMother(p2);
-			test2.setFather(p4);
-			test2.setMother(p3);
-			p6.setParents(test1);
-			p5.setParents(test2);
-			test1.addChild(p6);
-			test2.addChild(p5);
-			test3.setFather(p6);
-			test3.setMother(p5);
+			Couple parentsPere = new Couple();
+			Couple parentsMere = new Couple();
+			Couple parents = new Couple();
+			
+			parentsPere.setFather(pereDePere);
+			parentsPere.setMother(MereDePere);
+			parentsMere.setFather(p4);
+			parentsMere.setMother(p3);
+			
+			p6.setParents(parentsPere);
+			p5.setParents(parentsMere);
+			
+			parentsPere.addChild(p6);
+			parentsMere.addChild(p5);
+			parents.setFather(p6);
+			parents.setMother(p5);
 
-			test3.addChild(p7);
-			test3.addChild(p8);
+			parents.addChild(p7);
+			parents.addChild(p8);
 			
 			
 			frame.getContentPane().removeAll();
