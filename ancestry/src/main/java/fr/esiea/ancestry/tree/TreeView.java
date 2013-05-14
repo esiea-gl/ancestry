@@ -14,76 +14,33 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import javax.swing.WindowConstants;
 
-import org.joda.time.DateTime;
 
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
 import fr.esiea.ancestry.domain.Couple;
-import fr.esiea.ancestry.domain.Man;
-import fr.esiea.ancestry.domain.Woman;
+import fr.esiea.ancestry.domain.Person;
 
 
 // NB : never use setSize(), use setPreferedSize() instead
 
-public class TreeView extends JFrame {
+public class TreeView extends JPanel {
 
 	private static final long serialVersionUID = 1882182391251137556L;
-
+	private JFrame frame;
 	public JPanel tree; 
 	
-	public static void main(String[] args) {
-		TreeView treeView = new TreeView();
-		treeView.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		treeView.getContentPane().add(treeView.createUI());
-		treeView.setSize(1000, 1000);
-		treeView.setLocationRelativeTo(null);
+	public TreeView(JFrame frame, Person person) {
+		frame.getContentPane().add(this.createUI());
+		frame.setSize(1000, 1000);
+		frame.setLocationRelativeTo(null);
 		
 		double x,y;
 		x=190;
 		y=350;
-		Man p = (Man) new Man.Builder("Jesus", "Crise").Build("M");
-		p.setBirthDate(null);
-		p.setDeathDate(new DateTime(2013, 05, 01, 0, 0));
 		
-
-		Woman p2 = (Woman) new Woman.Builder("jinette", "Triquite").Build("F");
-		p2.setBirthDate(null);
-		p2.setDeathDate(new DateTime(2013, 05, 01, 0, 0));
-		
-
-		Woman p3 = (Woman) new Woman.Builder("Joharno", "DelaMort").Build("F");
-		p3.setBirthDate(new DateTime(2003, 05, 04, 0, 0));
-		p3.setDeathDate(new DateTime(2012, 8, 10, 0, 0));
-		
-
-		Man p4 = (Man) new Man.Builder("Père", "Noël").Build("M");
-		p4.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-		p4.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-
-		Woman p5 = (Woman) new Woman.Builder("woucha", "zig").Build("F");
-		p5.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-		p5.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-
-		Man p6 = (Man) new Man.Builder("Père", "Noël").Build("M");
-		p6.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-		p6.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-		
-		Man p7 = (Man) new Man.Builder(null, null).Build("M");
-		p7.setBirthDate(new DateTime(2010, 05, 04, 0, 0));
-		p7.setDeathDate(new DateTime(2012, 10, 10, 0, 0));
-		
-		Couple test = new Couple();
-		test.setFather(p);
-		test.addChild(p3);
-		test.addChild(p4);
-		test.addChild(p5);
-		test.addChild(p6);
-		//test.addChild(p7);
-		test.addChild(p7);
-		
+		Couple coupleDePerson = person.getCouple();
 		
 		
 		
@@ -93,24 +50,24 @@ public class TreeView extends JFrame {
 		
 		
 		//Parents du Père
-		PersonCell pereDePere =new PersonCell(p6,x,y);
-		PersonCell mereDePere =new PersonCell(p5,x+150,y);
+		PersonCell pereDePere =new PersonCell(coupleDePerson.getFather().getFather(),x,y);
+		PersonCell mereDePere =new PersonCell(coupleDePerson.getFather().getMother(),x+150,y);
 
 		//Parents de la Mère
-		PersonCell pereDeMere =new PersonCell(p7,x+350,y);
-		PersonCell mereDeMere =new PersonCell(p2,x+500,y);
+		PersonCell pereDeMere =new PersonCell(coupleDePerson.getMother().getFather(),x+350,y);
+		PersonCell mereDeMere =new PersonCell(coupleDePerson.getMother().getMother(),x+500,y);
 		
 		
 		x+=75;
 		y+=120;
 		
 		//Père et Mère
-		PersonCell pere =new PersonCell(test.getFather(),x,y);
-		PersonCell mere =new PersonCell(test.getMother(),x+350,y);
+		PersonCell pere =new PersonCell(coupleDePerson.getFather(),x,y);
+		PersonCell mere =new PersonCell(coupleDePerson.getMother(),x+350,y);
 		
 		List<PersonCell> childs = new ArrayList<PersonCell>();
 		
-		int childCount = test.childCount();
+		int childCount = coupleDePerson.childCount();
 		x+=235;
 		if(childCount%2==0){
 			x-=((childCount/2)*(120+30)-15);
@@ -124,7 +81,7 @@ public class TreeView extends JFrame {
 		
 		//Enfants
 		for(int i=0;i<childCount;i++){
-		childs.add(new PersonCell(test.childrens().get(i),x,y+120));
+		childs.add(new PersonCell(coupleDePerson.childrens().get(i),x,y+120));
 		x+=150;
 		}
 		
@@ -208,10 +165,10 @@ public class TreeView extends JFrame {
 		graphComponent.setConnectable(false);
 		graphComponent.setPreferredSize(new Dimension(960,960));
 		
-		treeView.tree.add(graphComponent);
+		this.tree.add(graphComponent);
 
 		
-		treeView.setVisible(true);
+		this.setVisible(true);
 		
 		
 	}

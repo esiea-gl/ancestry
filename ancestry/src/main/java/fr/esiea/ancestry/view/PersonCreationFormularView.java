@@ -13,6 +13,10 @@ import javax.swing.JTextField;
 public class PersonCreationFormularView extends JPanel {
 
 	private static final long serialVersionUID = 2537484965786463541L;
+	  JTextField lastNameField = new JTextField();
+	  JTextField firstNameField = new JTextField();
+	  JTextField birthDateField = new JTextField();
+	  ButtonGroup buttonGroup = new ButtonGroup();
 
 	public PersonCreationFormularView(String personTitle){
 		  setLayout(new BorderLayout());
@@ -21,13 +25,13 @@ public class PersonCreationFormularView extends JPanel {
 		  this.add(topPanel,BorderLayout.NORTH);
 		  		  
 		  JLabel lastNameLabel = new JLabel("Nom");
-		  JTextField lastNameField = new JTextField();
+		  //JTextField lastNameField = new JTextField();
 		  
 		  JLabel firstNameLabel = new JLabel("Prénom");
-		  JTextField firstNameField = new JTextField();
+		  //JTextField firstNameField = new JTextField();
 		  
 		  JLabel birthDateLabel = new JLabel("Date de naissance");
-		  JTextField birthDateField = new JTextField();
+		  //JTextField birthDateField = new JTextField();
 		  
 		  JLabel sexLabel = new JLabel("Sexe");
 		  JRadioButton maleChoice = new JRadioButton("Masculin");
@@ -49,8 +53,10 @@ public class PersonCreationFormularView extends JPanel {
 		  bottomPanel.add(firstNameField);
 		  bottomPanel.add(birthDateLabel);
 		  bottomPanel.add(birthDateField);
-		  bottomPanel.add(sexLabel);
-		  bottomPanel.add(sexChoicePanel);
+		  if(personTitle.equals("Enfant :")){
+			  bottomPanel.add(sexLabel);
+			  bottomPanel.add(sexChoicePanel);
+		  }
 		  
 		  this.add(bottomPanel,BorderLayout.CENTER);
 	  }       
