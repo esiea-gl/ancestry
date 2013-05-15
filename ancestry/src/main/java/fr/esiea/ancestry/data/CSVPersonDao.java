@@ -28,6 +28,13 @@ public class CSVPersonDao implements PersonDao {
 	private final PersonFormatter personFormatter;
 	private final CSVStrategy strategy;
 	
+	public CSVPersonDao(List<Person> persons) {
+		this.persons = persons;
+		this.strategy = new CSVStrategy('|', '\0', '#');	
+		this.personMap = new HashMap<Integer, Person>();
+		this.personFormatter = new PersonFormatter();
+	}
+	
 	public CSVPersonDao(Reader reader, char delimiter, char commentStart) 
 			throws IOException, InvalidGenderException, CycleException {
 		persons = new ArrayList<Person>();
@@ -67,9 +74,14 @@ public class CSVPersonDao implements PersonDao {
 	public void save(Writer writer, List<Person> persons) throws IOException {
 		CSVPrinter printer = new CSVPrinter(writer, strategy);
 		
-		for(Person p : persons) {
-			if(p.isNew()) p.setId(generateId());
-			printer.println(personFormatter.print(p));
+		for(Person person : persons) {
+			if(person == null) continue;
+			if(person.isNew()) {
+				person.setId(generateId());
+				this.personMap.put(person.getId(), person);
+			}
+			
+			printer.println(personFormatter.print(person));
 		}
 	}
 

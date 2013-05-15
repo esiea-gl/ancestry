@@ -21,6 +21,10 @@ public class Database {
 		_dao = new EmptyDao();
 	}
 
+	public void Load(List<Person> persons) {
+		_dao = new CSVPersonDao(persons);
+	}
+	
 	public void Load(String path) throws InvalidGenderException, CycleException {
 		try {
 			Reader in = new BufferedReader(new FileReader(path));

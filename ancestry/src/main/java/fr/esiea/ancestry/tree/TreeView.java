@@ -9,8 +9,6 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
-
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
@@ -32,15 +30,11 @@ public class TreeView extends JPanel {
 		frame.setSize(800,500);
 		frame.setLocationRelativeTo(null);
 		
-		double x,y;
-		x=90;
-		y=0;
+		double x = 90.0;
+		double y = 0.0;
+		
 		
 		Couple coupleDePerson = person.getCouple();
-		
-		
-			
-		
 		PersonCell pereDePere = null;
 		PersonCell mereDePere = null;
 		PersonCell pereDeMere = null;
