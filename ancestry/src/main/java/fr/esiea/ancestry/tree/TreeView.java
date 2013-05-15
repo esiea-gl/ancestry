@@ -20,16 +20,15 @@ import fr.esiea.ancestry.domain.Person;
 
 // NB : never use setSize(), use setPreferedSize() instead
 
-public class TreeView extends JFrame {
+public class TreeView extends JPanel {
 
 	private static final long serialVersionUID = 1882182391251137556L;
 	public JPanel tree; 
 	
 	public TreeView(JFrame frame, Person person) {
 
-		tree = new JPanel();
 		frame.getContentPane().removeAll();
-		frame.getContentPane().add(tree);
+		frame.getContentPane().add(this);
 		frame.setSize(800,500);
 		frame.setLocationRelativeTo(null);
 		
@@ -190,11 +189,9 @@ public class TreeView extends JFrame {
 		graphComponent.setConnectable(false);
 		graphComponent.setPreferredSize(new Dimension(800,500));
 		
-		this.tree.add(graphComponent);
+		this.add(graphComponent);
 
-		
-		
-		
+
 	}
 	
 }
