@@ -19,6 +19,7 @@ import fr.esiea.ancestry.domain.CycleException;
 import fr.esiea.ancestry.domain.InvalidGenderException;
 import fr.esiea.ancestry.domain.Man;
 import fr.esiea.ancestry.domain.Person;
+import fr.esiea.ancestry.domain.TooYoungForChildException;
 import fr.esiea.ancestry.domain.Woman;
 
 public class CSVPersonDao implements PersonDao {
@@ -36,7 +37,7 @@ public class CSVPersonDao implements PersonDao {
 	}
 	
 	public CSVPersonDao(Reader reader, char delimiter, char commentStart) 
-			throws IOException, InvalidGenderException, CycleException {
+			throws IOException, InvalidGenderException, CycleException, TooYoungForChildException {
 		persons = new ArrayList<Person>();
 		personMap = new HashMap<Integer, Person>();
 		personFormatter = new PersonFormatter();
@@ -96,7 +97,7 @@ public class CSVPersonDao implements PersonDao {
 		return id;
 	}
 	
-	private void linkPerson() throws InvalidGenderException, CycleException{
+	private void linkPerson() throws InvalidGenderException, CycleException, TooYoungForChildException{
 		
 		for(Person p : persons) {
 

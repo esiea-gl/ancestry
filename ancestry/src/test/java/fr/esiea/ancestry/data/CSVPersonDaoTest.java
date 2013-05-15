@@ -20,6 +20,7 @@ import fr.esiea.ancestry.domain.CycleException;
 import fr.esiea.ancestry.domain.InvalidGenderException;
 import fr.esiea.ancestry.domain.Man;
 import fr.esiea.ancestry.domain.Person;
+import fr.esiea.ancestry.domain.TooYoungForChildException;
 import fr.esiea.ancestry.domain.Woman;
 
 public class CSVPersonDaoTest {
@@ -32,7 +33,7 @@ public class CSVPersonDaoTest {
 	
 	
 	@Before
-	public void setUp() throws IOException, InvalidGenderException, CycleException {
+	public void setUp() throws IOException, InvalidGenderException, CycleException, TooYoungForChildException {
 		Reader in = new StringReader(csv);
 		dao = new CSVPersonDao(in, '|', '#'); 
 		in.close();
@@ -80,7 +81,7 @@ public class CSVPersonDaoTest {
 	}
 		
 	@Test
-	public void saveTest() throws IOException, InvalidGenderException, CycleException {
+	public void saveTest() throws IOException, InvalidGenderException, CycleException, TooYoungForChildException {
 		
 		String filename = "test.csv";
 		List<Person> persons = dao.all();

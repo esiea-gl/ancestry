@@ -46,7 +46,7 @@ public class CoupleTest {
 		}
 
 		@Test
-		public void addChildTest() {
+		public void addChildTest() throws TooYoungForChildException {
 			Person firstChild = new Woman();
 			Person secondChild = new Man();
 			Person thirdChild = new Woman();
@@ -61,7 +61,7 @@ public class CoupleTest {
 		}
 
 		@Test
-		public void removeChildTest() {
+		public void removeChildTest() throws TooYoungForChildException {
 			Person child = new Woman();
 			couple.addChild(child);
 			assertTrue(couple.childCount() > 0);
@@ -70,7 +70,7 @@ public class CoupleTest {
 		}
 
 		@Test
-		public void addChildWithInvalidFatherAgeTest() {
+		public void addChildWithInvalidFatherAgeTest() throws TooYoungForChildException {
 			
 			Man father = (Man) new Person.Builder("John", "Kerry")
 									.birthDate(new DateTime().minusYears(13))
@@ -82,7 +82,7 @@ public class CoupleTest {
 		}
 		
 		@Test
-		public void addChildWithInvalidMotherAgeTest() {
+		public void addChildWithInvalidMotherAgeTest() throws TooYoungForChildException {
 			
 			Woman mother = (Woman) new Person.Builder("Elisabeth", "Kerry")
 									.birthDate(new DateTime().minusYears(11))

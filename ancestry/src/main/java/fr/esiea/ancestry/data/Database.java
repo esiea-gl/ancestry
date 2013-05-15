@@ -11,6 +11,7 @@ import java.util.List;
 import fr.esiea.ancestry.domain.CycleException;
 import fr.esiea.ancestry.domain.InvalidGenderException;
 import fr.esiea.ancestry.domain.Person;
+import fr.esiea.ancestry.domain.TooYoungForChildException;
 
 public class Database {
 
@@ -25,7 +26,7 @@ public class Database {
 		_dao = new CSVPersonDao(persons);
 	}
 	
-	public void Load(String path) throws InvalidGenderException, CycleException {
+	public void Load(String path) throws InvalidGenderException, CycleException, TooYoungForChildException {
 		try {
 			Reader in = new BufferedReader(new FileReader(path));
 			_dao = new CSVPersonDao(in, '|', '#');

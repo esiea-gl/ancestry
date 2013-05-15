@@ -11,6 +11,8 @@ import com.mxgraph.model.mxGeometry;
 import fr.esiea.ancestry.domain.Person;
 
 public class PersonCell extends mxCell{
+	
+	private static final long serialVersionUID = -4006398822915168889L;
 	private final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 	  public PersonCell(Person person,double x, double y){
 		  if(person.gender().equals("M")){

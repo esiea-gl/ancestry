@@ -109,9 +109,7 @@ public class GUI extends JFrame implements ActionListener {
 				try {
 					Database.getInstance().Load(fileChooser.getSelectedFile().toString());
 					moveToView(new SearchView(this));
-				} catch (InvalidGenderException ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage());
-				} catch (CycleException ex) {
+				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(this, ex.getMessage());
 				}
 			}

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.joda.time.DateTime;
@@ -17,6 +18,7 @@ import fr.esiea.ancestry.data.Database;
 import fr.esiea.ancestry.domain.Couple;
 import fr.esiea.ancestry.domain.Man;
 import fr.esiea.ancestry.domain.Person;
+import fr.esiea.ancestry.domain.TooYoungForChildException;
 import fr.esiea.ancestry.domain.Woman;
 import fr.esiea.ancestry.tree.TreeView;
 
@@ -107,12 +109,17 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			parents.setFather(father);
 			parents.setMother(mother);
 			
+			try {
 			father.setParents(parentsPere);
 			mother.setParents(parentsMere);
 			
 			if(child != null){
 				parents.addChild(child);
+			} 
+			} catch(TooYoungForChildException ex) {
+				JOptionPane.showMessageDialog(this, ex.getMessage());
 			}
+			
 			
 			Database.getInstance().Load(family);
 			frame.getContentPane().removeAll();

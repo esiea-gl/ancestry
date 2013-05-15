@@ -18,7 +18,7 @@ public class PersonFormatter {
 		
 		String id = values[0];
 		String firstName = values[1];
-		String lastName =values[2];
+		String lastName = values[2];
 		String gender = values[3];
 		String fatherId = values[4];
 		String motherId = values[5];

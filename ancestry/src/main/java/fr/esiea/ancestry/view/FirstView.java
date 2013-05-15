@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import fr.esiea.ancestry.data.Database;
 import fr.esiea.ancestry.domain.CycleException;
 import fr.esiea.ancestry.domain.InvalidGenderException;
+import fr.esiea.ancestry.domain.TooYoungForChildException;
 
 public class FirstView extends JPanel implements ActionListener{
 
@@ -71,9 +72,7 @@ public class FirstView extends JPanel implements ActionListener{
 					frame.getContentPane().add(new SearchView(frame));
 					frame.pack();
 					frame.repaint();
-				} catch (InvalidGenderException e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
-				} catch (CycleException e) {
+				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
 				}
 			}

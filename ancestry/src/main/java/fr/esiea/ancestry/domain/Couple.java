@@ -46,9 +46,9 @@ public class Couple {
 		return Collections.unmodifiableList(childrens);
 	}
 	
-	public void addChild(Person child) {
+	public void addChild(Person child) throws TooYoungForChildException {
 		
-		if(!canHaveChildren()) return;
+		if(!canHaveChildren()) throw new TooYoungForChildException();
 		if(!childrens.contains(child)) {
 			childrens.add(child);
 			child.setParents(this);

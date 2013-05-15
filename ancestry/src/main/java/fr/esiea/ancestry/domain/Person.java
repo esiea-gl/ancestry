@@ -115,7 +115,7 @@ public abstract class Person {
 		itsCouple = couple;
 	}
 		
-	public void setParents(Couple parents) {
+	public void setParents(Couple parents) throws TooYoungForChildException {
 		parents.addChild(this);
 		this.parents = parents;
 	}

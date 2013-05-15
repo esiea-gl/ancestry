@@ -25,7 +25,7 @@ public class PersonTest {
 	
 		
 	@Test
-	public void testSetMother() {
+	public void testSetMother() throws TooYoungForChildException {
 		Couple parents = new Couple();
 		parents.setMother(new Woman());
 		
@@ -34,7 +34,7 @@ public class PersonTest {
 	}
 	
 	@Test
-	public void testSetFather(){
+	public void testSetFather() throws TooYoungForChildException{
 		Couple parents = new Couple();
 		parents.setFather(new Man());
 		
