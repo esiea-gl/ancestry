@@ -138,6 +138,8 @@ public class CSVPersonDao implements PersonDao {
 			if(father.getCouple() != mother.getCouple()) {
 				parents.setFather(father);
 				parents.setMother(mother);
+			}else{
+				parents = father.getCouple();
 			}
 			
 			// link child

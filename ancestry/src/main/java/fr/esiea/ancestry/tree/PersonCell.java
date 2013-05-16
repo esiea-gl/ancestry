@@ -14,7 +14,13 @@ public class PersonCell extends mxCell{
 	
 	private static final long serialVersionUID = -4006398822915168889L;
 	private final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+	private final Person person;
+	
 	  public PersonCell(Person person,double x, double y){
+
+		  
+		  this.person = person;
+		  
 		  if(person.gender().equals("M")){
 			  this.setStyle("align=align_left;strokeColor=black;fontColor=black");
 		  }
@@ -43,11 +49,6 @@ public class PersonCell extends mxCell{
 			  texte = texte + "\n Naissance : NC";
 		  }
 
-		  if (person.deathDate()!=null){
-			  texte = texte + "\n Décés        : " + dateFormatter.print(person.deathDate());
-		  }else{
-			  texte = texte + "\n Décés        : NC";
-		  }
 		  
 		  this.setValue(texte);
 		  
@@ -58,4 +59,9 @@ public class PersonCell extends mxCell{
 		  this.setId(null);
 		  this.setVertex(true);		  
 	  }       
+
+
+	  public String firstName() { return person.firstName();}
+	  public String lastName() { return person.lastName();}
+	  
 }

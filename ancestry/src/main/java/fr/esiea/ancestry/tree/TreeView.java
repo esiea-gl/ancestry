@@ -2,6 +2,7 @@ package fr.esiea.ancestry.tree;
 
 
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +11,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.handler.mxCellTracker;
 import com.mxgraph.view.mxGraph;
 
 import fr.esiea.ancestry.domain.Couple;
+import fr.esiea.ancestry.domain.Man;
 import fr.esiea.ancestry.domain.Person;
+import fr.esiea.ancestry.domain.Woman;
 
 
 // NB : never use setSize(), use setPreferedSize() instead
@@ -31,33 +35,78 @@ public class TreeView extends JPanel {
 		frame.setLocationRelativeTo(null);
 		
 		double x = 90.0;
-		double y = 0.0;
+		double y = 30.0;
+
+		List<Double> listPersonCellX = new ArrayList<Double>();
+		List<Double> listPersonCellY = new ArrayList<Double>();
+		List<Person> listPerson= new ArrayList<Person>();
 		
+		Couple coupleDePerson = null;
+		//si person est en couple
+		if(person.getCouple()!=null){
+			coupleDePerson = person.getCouple();
+		}
+		//sinon
+		else{
+			coupleDePerson = new Couple();
+		}
 		
-		Couple coupleDePerson = person.getCouple();
+		if(coupleDePerson.getFather() == Man.EMPTY && coupleDePerson.getMother() == Woman.EMPTY){
+			if(person instanceof Man){
+				coupleDePerson.setFather((Man)person);
+			}else{
+				coupleDePerson.setMother((Woman)person);
+			}
+		}
+		
 		PersonCell pereDePere = null;
 		PersonCell mereDePere = null;
 		PersonCell pereDeMere = null;
 		PersonCell mereDeMere = null;
 		
 		//Parents du Père
-		if(coupleDePerson.getFather().getFather().firstName()!= null || coupleDePerson.getFather().getMother().firstName()!= null){
+		if(coupleDePerson.getFather().getParents()!=null){
+		if(coupleDePerson.getFather().getFather()!= Man.EMPTY && coupleDePerson.getFather().getMother() != Woman.EMPTY){
+		//if(coupleDePerson.getFather().getFather().firstName()!= null || coupleDePerson.getFather().getMother().firstName()!= null){
+			listPerson.add(coupleDePerson.getFather().getFather());
 			pereDePere = new PersonCell(coupleDePerson.getFather().getFather(),x,y);
+			listPersonCellX.add(x);
+			listPersonCellY.add(y);
+			listPerson.add(coupleDePerson.getFather().getMother());
 			mereDePere = new PersonCell(coupleDePerson.getFather().getMother(),x+150,y);
+			listPersonCellX.add(x+150);
+			listPersonCellY.add(y);
+		//}
 		}
-
+		}
 		//Parents de la Mère
-		if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+		if(coupleDePerson.getMother().getParents()!=null){
+		if(coupleDePerson.getMother().getFather() != Man.EMPTY && coupleDePerson.getMother().getMother() != Woman.EMPTY){
+		//if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+			listPerson.add(coupleDePerson.getMother().getFather());
 			pereDeMere = new PersonCell(coupleDePerson.getMother().getFather(),x+350,y);
+			listPersonCellX.add(x+350);
+			listPersonCellY.add(y);
+			listPerson.add(coupleDePerson.getMother().getMother());
 			mereDeMere = new PersonCell(coupleDePerson.getMother().getMother(),x+500,y);
+			listPersonCellX.add(x+500);
+			listPersonCellY.add(y);
+		//}
+		}
 		}
 		
 		x+=75;
 		y+=120;
 		
 		//Père et Mère
+		listPerson.add(coupleDePerson.getFather());
 		PersonCell pere =new PersonCell(coupleDePerson.getFather(),x,y);
+		listPersonCellX.add(x);
+		listPersonCellY.add(y);
+		listPerson.add(coupleDePerson.getMother());
 		PersonCell mere =new PersonCell(coupleDePerson.getMother(),x+350,y);
+		listPersonCellX.add(x+350);
+		listPersonCellY.add(y);
 		
 		List<PersonCell> childs = new ArrayList<PersonCell>();
 		
@@ -75,7 +124,10 @@ public class TreeView extends JPanel {
 		
 		//Enfants
 		for(int i=0;i<childCount;i++){
+		listPerson.add(coupleDePerson.childrens().get(i));
 		childs.add(new PersonCell(coupleDePerson.childrens().get(i),x,y+120));
+		listPersonCellX.add(x);
+		listPersonCellY.add(y+120);
 		x+=150;
 		}
 		
@@ -99,19 +151,25 @@ public class TreeView extends JPanel {
 			Object v8 = null;
 			Object v9 = null;
 			
-			
-			if(coupleDePerson.getFather().getFather().firstName()!= null || coupleDePerson.getFather().getMother().firstName()!= null){
+
+			if(coupleDePerson.getFather().getParents()!=null){
+			if(coupleDePerson.getFather().getFather() != Man.EMPTY && coupleDePerson.getFather().getMother() != Woman.EMPTY){
+			//if(coupleDePerson.getFather().getFather().firstName()!= null || coupleDePerson.getFather().getMother().firstName()!= null){
 			v1 = graph.addCell(pereDePere);
 			v2 = graph.addCell(mereDePere);
+			
 			
 			//Liaison entre parents du Père
 			v7 = graph.insertVertex(parent, null, "", pereDePere.getGeometry().getX()+135, pereDePere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
 			graph.insertEdge(parent, null, "", v1, v7,"endArrow=none;strokeColor=black");
 			graph.insertEdge(parent, null, "", v7, v2,"endArrow=none;strokeColor=black");
+			//}
+			}
 			}
 
-			
-			if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+			if(coupleDePerson.getMother().getParents()!=null){
+			if(coupleDePerson.getMother().getFather() != Man.EMPTY && coupleDePerson.getMother().getMother() != Woman.EMPTY){
+			//if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
 			v3 = graph.addCell(pereDeMere);
 			v4 = graph.addCell(mereDeMere);
 
@@ -120,7 +178,7 @@ public class TreeView extends JPanel {
 			graph.insertEdge(parent, null, "", v3, v8,"endArrow=none;strokeColor=black");
 			graph.insertEdge(parent, null, "", v8, v4,"endArrow=none;strokeColor=black");
 			}
-			
+			}
 			
 			v5 = graph.addCell(pere);
 			v6 = graph.addCell(mere);
@@ -135,15 +193,19 @@ public class TreeView extends JPanel {
 			graph.insertEdge(parent, null, "", v9, v6,"endArrow=none;strokeColor=black");
 
 			//Liaison entre parents du Père et Père
-			if(coupleDePerson.getFather().getFather()!= null || coupleDePerson.getFather().getMother() != null){
+			if(coupleDePerson.getFather().getParents()!=null){
+			if(coupleDePerson.getFather().getFather() != Man.EMPTY && coupleDePerson.getFather().getMother() != Woman.EMPTY){
+			//if(coupleDePerson.getFather().getFather()!= null || coupleDePerson.getFather().getMother() != null){
 			graph.insertEdge(parent, null, "", v7, v5,"strokeColor=black");
 			}
-			
+			}
 			//Liaison entre parents de la Mère et Mère
-			if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+			if(coupleDePerson.getMother().getParents()!=null){
+			if(coupleDePerson.getMother().getFather() != Man.EMPTY && coupleDePerson.getMother().getMother() != Woman.EMPTY){
+			//if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
 			graph.insertEdge(parent, null, "", v8, v6,"strokeColor=black");
 			}
-			
+			}
 			int j=0;
 			for(int i=0;i<childCount;i++){
 				child.add(graph.addCell(childs.get(i)));
@@ -171,6 +233,7 @@ public class TreeView extends JPanel {
 		{
 			graph.getModel().endUpdate();
 		}
+		
 
 		graph.setCellsEditable(false);
 		graph.setCellsMovable(false);
@@ -182,6 +245,11 @@ public class TreeView extends JPanel {
 		graphComponent.setBorder(null);
 		graphComponent.setConnectable(false);
 		graphComponent.setPreferredSize(new Dimension(800,500));
+
+		CellTracker tracker = new CellTracker(frame, graphComponent, listPersonCellX, listPersonCellY, listPerson, Color.CYAN);
+		
+		
+		
 		
 		this.add(graphComponent);
 
