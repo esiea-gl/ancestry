@@ -5,10 +5,16 @@ import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -40,8 +46,17 @@ public class FirstView extends JPanel implements ActionListener{
 		JPanel innerPannel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		innerPannel.add(loadFileButton);
 		innerPannel.add(createButton);
-		this.add(innerPannel);
+		this.add(innerPannel, BorderLayout.NORTH);
 		
+		BufferedImage myPicture;
+		try {
+			File image = new File("./src/resources/Logo.png");
+			myPicture = ImageIO.read(image);
+			JLabel picLabel = new JLabel(new ImageIcon( myPicture ));
+			this.add(picLabel, BorderLayout.CENTER);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
