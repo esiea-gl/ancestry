@@ -74,7 +74,7 @@ public class PersonModificationFormularView extends JPanel{
 		  bottomPanel.add(firstNameField);
 		  bottomPanel.add(birthDateLabel);
 		  bottomPanel.add(birthDateField);
-		  if(personTitle.equals("Enfant :")){
+		  if(personTitle.equals("Création Enfant :")){
 			  bottomPanel.add(sexLabel);
 			  bottomPanel.add(sexChoicePanel);
 		  }
