@@ -63,21 +63,21 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			
 			List<Person> family = new ArrayList<Person>();
 			
-			//Création des parents du père
-			Man pereDePere = (Man) new Man.Builder(null, null).Build("M");			
-			Woman mereDePere = (Woman) new Woman.Builder(null, null).Build("F");
-			
-			//Création des parents de la mère
-			Man pereDeMere = (Man) new Man.Builder(null, null).Build("M");			
-			Woman mereDeMere = (Woman) new Woman.Builder(null, null).Build("F");
-
 			//Création des parents		
 			Man father = (Man) new Man.Builder(pere.firstNameField.getText(), pere.lastNameField.getText()).Build("M");
+			if(pere.birthDateField.getText().equals("jj/mm/aaaa")){
+				father.setBirthDate(null);
+			}else{
 			father.setBirthDate(new DateTime( Integer.parseInt(pere.birthDateField.getText().substring(6, 10)), Integer.parseInt(pere.birthDateField.getText().substring(3, 5)), Integer.parseInt(pere.birthDateField.getText().substring(0, 2)),0,0));
+			}
 			family.add(father);
 			
 			Woman mother = (Woman) new Woman.Builder(mere.firstNameField.getText(), mere.lastNameField.getText()).Build("F");
+			if(mere.birthDateField.getText().equals("jj/mm/aaaa")){
+				mother.setBirthDate(null);
+			}else{
 			mother.setBirthDate(new DateTime( Integer.parseInt(mere.birthDateField.getText().substring(6, 10)), Integer.parseInt(mere.birthDateField.getText().substring(3, 5)), Integer.parseInt(mere.birthDateField.getText().substring(0, 2)),0,0));
+			}
 			family.add(mother);
 			
 			Person child = null;
@@ -85,11 +85,19 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			if(!enfant.firstNameField.getText().isEmpty()){
 				if(enfant.maleChoice.isSelected()){
 						child = (Man) new Man.Builder(enfant.firstNameField.getText(), enfant.lastNameField.getText()).Build("M");
+						if(enfant.birthDateField.getText().equals("jj/mm/aaaa")){
+							child.setBirthDate(null);
+						}else{
 						child.setBirthDate(new DateTime( Integer.parseInt(enfant.birthDateField.getText().substring(6, 10)), Integer.parseInt(enfant.birthDateField.getText().substring(3, 5)), Integer.parseInt(enfant.birthDateField.getText().substring(0, 2)),0,0));
+						}
 				}
 				if(enfant.femaleChoice.isSelected()){
 						child = (Woman) new Woman.Builder(enfant.firstNameField.getText(), enfant.lastNameField.getText()).Build("F");
+						if(enfant.birthDateField.getText().equals("jj/mm/aaaa")){
+							child.setBirthDate(null);
+						}else{
 						child.setBirthDate(new DateTime( Integer.parseInt(enfant.birthDateField.getText().substring(6, 10)), Integer.parseInt(enfant.birthDateField.getText().substring(3, 5)), Integer.parseInt(enfant.birthDateField.getText().substring(0, 2)),0,0));
+						}
 				}
 				family.add(child);
 			}
@@ -100,11 +108,11 @@ public class CreateTreeView extends JPanel implements ActionListener{
 			Couple parents = new Couple();
 
 			//Création des liaisons
-			parentsPere.setFather(pereDePere);
-			parentsPere.setMother(mereDePere);
+			parentsPere.setFather(Man.EMPTY);
+			parentsPere.setMother(Woman.EMPTY);
 			
-			parentsMere.setFather(pereDeMere);
-			parentsMere.setMother(mereDeMere);
+			parentsMere.setFather(Man.EMPTY);
+			parentsMere.setMother(Woman.EMPTY);
 			
 			parents.setFather(father);
 			parents.setMother(mother);

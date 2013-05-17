@@ -73,6 +73,13 @@ public abstract class Person {
 		this.motherId = motherId;
 	}
 	
+	public void setLastName(String lastName){
+		this.lastName=lastName;
+	}
+	
+	public void setFirstName(String firstName){
+		this.firstName=firstName;
+	}
 	
 	// Vérifie si un individu est un de ses ancêtres
 	public boolean hasAscendant(Person person) {

@@ -42,6 +42,7 @@ public class FirstView extends JPanel implements ActionListener{
 		innerPannel.add(createButton);
 		this.add(innerPannel);
 		
+		
 	}
 
 	private JButton createCreateButton() {

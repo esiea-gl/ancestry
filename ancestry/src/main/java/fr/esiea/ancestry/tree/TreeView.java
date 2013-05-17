@@ -49,6 +49,8 @@ public class TreeView extends JPanel {
 		//sinon
 		else{
 			coupleDePerson = new Couple();
+			coupleDePerson.setFather(Man.EMPTY);
+			coupleDePerson.setMother(Woman.EMPTY);
 		}
 		
 		if(coupleDePerson.getFather() == Man.EMPTY && coupleDePerson.getMother() == Woman.EMPTY){
@@ -66,8 +68,7 @@ public class TreeView extends JPanel {
 		
 		//Parents du Père
 		if(coupleDePerson.getFather().getParents()!=null){
-		if(coupleDePerson.getFather().getFather()!= Man.EMPTY && coupleDePerson.getFather().getMother() != Woman.EMPTY){
-		//if(coupleDePerson.getFather().getFather().firstName()!= null || coupleDePerson.getFather().getMother().firstName()!= null){
+		if(coupleDePerson.getFather().getFather()!= Man.EMPTY || coupleDePerson.getFather().getMother() != Woman.EMPTY){
 			listPerson.add(coupleDePerson.getFather().getFather());
 			pereDePere = new PersonCell(coupleDePerson.getFather().getFather(),x,y);
 			listPersonCellX.add(x);
@@ -76,13 +77,11 @@ public class TreeView extends JPanel {
 			mereDePere = new PersonCell(coupleDePerson.getFather().getMother(),x+150,y);
 			listPersonCellX.add(x+150);
 			listPersonCellY.add(y);
-		//}
 		}
 		}
 		//Parents de la Mère
 		if(coupleDePerson.getMother().getParents()!=null){
-		if(coupleDePerson.getMother().getFather() != Man.EMPTY && coupleDePerson.getMother().getMother() != Woman.EMPTY){
-		//if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+		if(coupleDePerson.getMother().getFather() != Man.EMPTY || coupleDePerson.getMother().getMother() != Woman.EMPTY){
 			listPerson.add(coupleDePerson.getMother().getFather());
 			pereDeMere = new PersonCell(coupleDePerson.getMother().getFather(),x+350,y);
 			listPersonCellX.add(x+350);
@@ -91,7 +90,6 @@ public class TreeView extends JPanel {
 			mereDeMere = new PersonCell(coupleDePerson.getMother().getMother(),x+500,y);
 			listPersonCellX.add(x+500);
 			listPersonCellY.add(y);
-		//}
 		}
 		}
 		
@@ -153,8 +151,7 @@ public class TreeView extends JPanel {
 			
 
 			if(coupleDePerson.getFather().getParents()!=null){
-			if(coupleDePerson.getFather().getFather() != Man.EMPTY && coupleDePerson.getFather().getMother() != Woman.EMPTY){
-			//if(coupleDePerson.getFather().getFather().firstName()!= null || coupleDePerson.getFather().getMother().firstName()!= null){
+			if(coupleDePerson.getFather().getFather() != Man.EMPTY || coupleDePerson.getFather().getMother() != Woman.EMPTY){
 			v1 = graph.addCell(pereDePere);
 			v2 = graph.addCell(mereDePere);
 			
@@ -163,13 +160,11 @@ public class TreeView extends JPanel {
 			v7 = graph.insertVertex(parent, null, "", pereDePere.getGeometry().getX()+135, pereDePere.getGeometry().getY()+35, 0, 0, "strokeColor=black;fontColor=black;fillColor=black");
 			graph.insertEdge(parent, null, "", v1, v7,"endArrow=none;strokeColor=black");
 			graph.insertEdge(parent, null, "", v7, v2,"endArrow=none;strokeColor=black");
-			//}
 			}
 			}
 
 			if(coupleDePerson.getMother().getParents()!=null){
-			if(coupleDePerson.getMother().getFather() != Man.EMPTY && coupleDePerson.getMother().getMother() != Woman.EMPTY){
-			//if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+			if(coupleDePerson.getMother().getFather() != Man.EMPTY || coupleDePerson.getMother().getMother() != Woman.EMPTY){
 			v3 = graph.addCell(pereDeMere);
 			v4 = graph.addCell(mereDeMere);
 
@@ -194,15 +189,13 @@ public class TreeView extends JPanel {
 
 			//Liaison entre parents du Père et Père
 			if(coupleDePerson.getFather().getParents()!=null){
-			if(coupleDePerson.getFather().getFather() != Man.EMPTY && coupleDePerson.getFather().getMother() != Woman.EMPTY){
-			//if(coupleDePerson.getFather().getFather()!= null || coupleDePerson.getFather().getMother() != null){
+			if(coupleDePerson.getFather().getFather() != Man.EMPTY || coupleDePerson.getFather().getMother() != Woman.EMPTY){
 			graph.insertEdge(parent, null, "", v7, v5,"strokeColor=black");
 			}
 			}
 			//Liaison entre parents de la Mère et Mère
 			if(coupleDePerson.getMother().getParents()!=null){
-			if(coupleDePerson.getMother().getFather() != Man.EMPTY && coupleDePerson.getMother().getMother() != Woman.EMPTY){
-			//if(coupleDePerson.getMother().getFather().firstName()!= null || coupleDePerson.getMother().getMother().firstName()!= null){
+			if(coupleDePerson.getMother().getFather() != Man.EMPTY || coupleDePerson.getMother().getMother() != Woman.EMPTY){
 			graph.insertEdge(parent, null, "", v8, v6,"strokeColor=black");
 			}
 			}
