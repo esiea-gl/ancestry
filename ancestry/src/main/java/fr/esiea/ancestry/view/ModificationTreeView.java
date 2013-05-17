@@ -121,6 +121,13 @@ public class ModificationTreeView extends JPanel implements ActionListener{
 			if(!mere.firstNameField.getText().isEmpty()){
 				if(person.getMother() == Woman.EMPTY){
 					person.getParents().setMother((Woman) new Woman.Builder(null, null).Build("F"));
+					if(person.getFather() == Man.EMPTY){
+						try {
+							person.getParents().addChild(person);
+						} catch (TooYoungForChildException e1) {
+							e1.printStackTrace();
+						}
+					}		
 				}else{
 				family.remove(person.getParents().getMother());
 			}
